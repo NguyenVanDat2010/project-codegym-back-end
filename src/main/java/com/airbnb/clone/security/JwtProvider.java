@@ -1,6 +1,7 @@
 package com.airbnb.clone.security;
 
 import com.airbnb.clone.exception.AppException;
+import io.jsonwebtoken.Claims;
 import io.jsonwebtoken.Jwts;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.core.Authentication;
@@ -12,46 +13,82 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.security.*;
 import java.security.cert.CertificateException;
+import java.time.Instant;
+import java.util.Date;
+
+import static io.jsonwebtoken.Jwts.parser;
+import static java.util.Date.from;
 
 @Service
 public class JwtProvider {
-    private KeyStore keyStore;
 
+    private KeyStore keyStore;
     @Value("${jwt.keystore.password}")
     private String keyStorePassword;
+
 
     @Value("${jwt.expiration.time}")
     private Long jwtExpirationInMillis;
 
     @PostConstruct
-    //load key store
     public void init() {
         try {
             keyStore = KeyStore.getInstance("JKS");
-            InputStream resourceAsStream = getClass().getResourceAsStream("/projectbackend.jks");
-            keyStore.load(resourceAsStream, keyStorePassword.toCharArray());
+            InputStream inputStream = getClass().getResourceAsStream("/projectbackend.jks");
+            keyStore.load(inputStream,keyStorePassword.toCharArray());
         } catch (IOException | CertificateException | NoSuchAlgorithmException | KeyStoreException e) {
-            e.printStackTrace();
+            throw new AppException("Exception occured while loading keystore");
         }
     }
-
     public String generateToken(Authentication authentication) {
-        User principal = (User) authentication.getPrincipal();
+        User principle = (User) authentication.getPrincipal();
         return Jwts.builder()
-                .setSubject(principal.getUsername())
+                .setSubject(principle.getUsername())
+                .setIssuedAt(from(Instant.now()))
                 .signWith(getPrivateKey())
+                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
                 .compact();
     }
 
     private PrivateKey getPrivateKey() {
         try {
-            return (PrivateKey) keyStore.getKey("projectbackend",keyStorePassword.toCharArray());
-
+            return (PrivateKey) keyStore.getKey("redditclone",keyStorePassword.toCharArray());
         } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
-            e.printStackTrace();
-            throw new AppException("Exception occurred while retrieving public key from public " +
-                    "key store" + e.getMessage());
+            throw new AppException("Exception occured while retrieving public key from " +
+                    "key store");
         }
     }
+
+    public boolean validateToken(String jwt) {
+        Jwts.parser().setSigningKey(getPublicKey()).parseClaimsJws(jwt);
+        return true;
+    }
+
+    private PublicKey getPublicKey() {
+        try {
+            return keyStore.getCertificate("projectbackend").getPublicKey();
+        } catch (KeyStoreException e) {
+            throw new AppException("Exception occured while retrieving public key");
+        }
+    }
+
+    public String getUsernameFromJwt(String token) {
+        Claims claims = Jwts.parser().setSigningKey(getPublicKey()).parseClaimsJws(token).getBody();
+        return claims.getSubject();
+    }
+
+    public Long getJwtExpirationInMillis() {
+        return jwtExpirationInMillis;
+    }
+
+    public String generateTokenWithUserName(String username) {
+        return Jwts.builder()
+                .setSubject(username)
+                .setIssuedAt(from(Instant.now()))
+                .signWith(getPrivateKey())
+                .setExpiration(Date.from(Instant.now().plusMillis(jwtExpirationInMillis)))
+                .compact();
+    }
+
 
 }

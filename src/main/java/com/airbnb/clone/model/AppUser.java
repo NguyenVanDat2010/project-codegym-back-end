@@ -21,8 +21,6 @@ public class AppUser {
     private String username;
     @NotBlank(message = "Password is required")
     private String password;
-    @NotBlank(message = "Name is required")
-    private String name;
     @Email
     @NotEmpty(message = "Email is required")
     private String email;
@@ -78,5 +76,21 @@ public class AppUser {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
