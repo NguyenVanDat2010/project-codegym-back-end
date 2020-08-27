@@ -28,8 +28,6 @@ public class AppUserService implements UserDetailsService {
 
         return new User(appUser.getUsername(), appUser.getPassword(),appUser.isEnabled(), true,
                 true,true, getAuthorities("USER"));
-
-
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {
@@ -38,5 +36,13 @@ public class AppUserService implements UserDetailsService {
 
     public Boolean existsByEmail(String email){
         return appUserRepository.existsByEmail(email);
+    }
+
+    public Boolean existsByPhoneNumber(String phoneNumber){
+        return appUserRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    public Boolean existsByUserName(String username){
+        return appUserRepository.existsByUsername(username);
     }
 }
