@@ -17,6 +17,8 @@ public class AppUser {
     private String username;
     @NotBlank(message = "Password is required")
     private String password;
+    @NotBlank(message = "Name is required")
+    private String name;
     @Email
     @NotEmpty(message = "Email is required")
     private String email;
