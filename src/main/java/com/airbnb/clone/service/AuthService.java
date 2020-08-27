@@ -3,6 +3,7 @@ package com.airbnb.clone.service;
 import com.airbnb.clone.dto.RegisterRequest;
 import com.airbnb.clone.exception.AppException;
 import com.airbnb.clone.model.AppUser;
+import com.airbnb.clone.model.NotificationEmail;
 import com.airbnb.clone.model.VerificationToken;
 import com.airbnb.clone.repository.AppUserRepository;
 import com.airbnb.clone.repository.VerificationRepository;
@@ -24,7 +25,7 @@ public class AuthService {
     @Autowired
     private VerificationRepository verificationRepository;
     @Autowired
-    private MailContentBuilder mailContentBuilder;
+    private MailService mailService;
     private static final String VERIFICATION_URL = "http://localhost:8080/api/auth" +
             "/accountVerification/";
     @Transactional
@@ -38,8 +39,10 @@ public class AuthService {
 
         appUserRepository.save(appUser);
         String token = generateVerificationToken(appUser);
-        String message = mailContentBuilder.build("Thank you for signing up, please click on the " +
-                "link to active your account: " + VERIFICATION_URL + token);
+
+        mailService.sendConfirmSignupMail(new NotificationEmail("Please Activate your account",
+                appUser.getEmail(), "Thank you for signing up, please click on the below url to " +
+                "active your account : " + "http://localhost:8080/api/auth/accountVerification/"+token));
     }
 
     public void verifyAccount(String token) {
