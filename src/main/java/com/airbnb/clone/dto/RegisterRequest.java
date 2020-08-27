@@ -1,14 +1,19 @@
 package com.airbnb.clone.dto;
 
 public class RegisterRequest {
+    private String firstName;
+    private String lastName;
     private String username;
     private String email;
+
     private String password;
 
     public RegisterRequest() {
     }
 
-    public RegisterRequest(String username, String email, String password) {
+    public RegisterRequest(String firstName, String lastName, String username, String email, String password) {
+        this.firstName = firstName;
+        this.lastName = lastName;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -36,5 +41,21 @@ public class RegisterRequest {
 
     public void setPassword(String password) {
         this.password = password;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 }
