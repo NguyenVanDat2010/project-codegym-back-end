@@ -1,5 +1,7 @@
 package com.airbnb.clone.controller;
 
+import com.airbnb.clone.dto.AuthenticationResponse;
+import com.airbnb.clone.dto.LoginRequest;
 import com.airbnb.clone.dto.RegisterRequest;
 import com.airbnb.clone.service.AuthService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -23,5 +25,10 @@ public class AuthController {
    public ResponseEntity<String> verifyAccount(@PathVariable String token) {
       authService.verifyAccount(token);
       return new ResponseEntity<>("Account activated", HttpStatus.OK);
+   }
+
+   @PostMapping("/login")
+   public AuthenticationResponse login(@RequestBody LoginRequest loginRequest) {
+      return authService.login(loginRequest);
    }
 }

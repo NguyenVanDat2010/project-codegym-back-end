@@ -1,5 +1,7 @@
 package com.airbnb.clone.service;
 
+import com.airbnb.clone.dto.AuthenticationResponse;
+import com.airbnb.clone.dto.LoginRequest;
 import com.airbnb.clone.dto.RegisterRequest;
 import com.airbnb.clone.exception.AppException;
 import com.airbnb.clone.model.AppUser;
@@ -7,7 +9,12 @@ import com.airbnb.clone.model.NotificationEmail;
 import com.airbnb.clone.model.VerificationToken;
 import com.airbnb.clone.repository.AppUserRepository;
 import com.airbnb.clone.repository.VerificationRepository;
+import com.airbnb.clone.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
+import org.springframework.security.core.Authentication;
+import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -26,8 +33,25 @@ public class AuthService {
     private VerificationRepository verificationRepository;
     @Autowired
     private MailService mailService;
+    @Autowired
+    private AuthenticationManager authenticationManager;
+    @Autowired
+    private JwtProvider jwtProvider;
     private static final String VERIFICATION_URL = "http://localhost:8080/api/auth" +
             "/accountVerification/";
+
+    public AuthenticationResponse login(LoginRequest loginRequest) {
+        Authentication authenticatingObject =
+                authenticationManager.authenticate(
+                        new UsernamePasswordAuthenticationToken(
+                                loginRequest.getUsername(),
+                                loginRequest.getPassword()
+                        )
+                );
+        SecurityContextHolder.getContext().setAuthentication(authenticatingObject);
+        String authenticationToken = jwtProvider.generateToken(authenticatingObject);
+        return new AuthenticationResponse(authenticationToken, loginRequest.getUsername());
+    }
     @Transactional
     public void signup(RegisterRequest registerRequest) {
         AppUser appUser = new AppUser();
@@ -47,8 +71,9 @@ public class AuthService {
 
     public void verifyAccount(String token) {
         Optional<VerificationToken> verificationToken = verificationRepository.findByToken(token);
-        verificationToken.orElseThrow(() -> new AppException("Invalid token"));
+        enableUserByToken(verificationToken.orElseThrow(() -> new AppException("Invalid token")));
     }
+
     private void enableUserByToken(VerificationToken verificationToken) {
         String username = verificationToken.getUser().getUsername();
         AppUser appUser =
