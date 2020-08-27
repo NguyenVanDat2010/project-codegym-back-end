@@ -16,19 +16,15 @@ import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.Instant;
-import java.util.List;
 import java.util.Optional;
 import java.util.UUID;
-import java.util.stream.Collectors;
 
 @Service
 public class AuthService {
@@ -65,7 +61,7 @@ public class AuthService {
         String token = generateVerificationToken(appUser);
         mailService.sendConfirmSignupMail(new NotificationEmail("Please Activate your account",
                 appUser.getEmail(), "Thank you for signing up, please click on the below url to " +
-                "active your account : " + "http://localhost:8080/api/auth/accountVerification/"+token));
+                "active your account : " + VERIFICATION_URL + token));
     }
 
     private String generateVerificationToken(AppUser appUser) {
