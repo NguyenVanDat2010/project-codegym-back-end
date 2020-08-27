@@ -21,9 +21,6 @@ public class House {
     @Column
     private String image;
 
-    @Transient
-    private MultipartFile imageFile;
-
     //Xác định là chủ nhà
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
@@ -73,14 +70,6 @@ public class House {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public MultipartFile getImageFile() {
-        return imageFile;
-    }
-
-    public void setImageFile(MultipartFile imageFile) {
-        this.imageFile = imageFile;
     }
 
     public AppUser getUser() {
