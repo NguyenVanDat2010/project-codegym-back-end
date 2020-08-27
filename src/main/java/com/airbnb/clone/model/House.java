@@ -36,9 +36,9 @@ public class House {
     private HouseCategory houseCategory;
 
     @ManyToOne
-    @JoinColumn(name = "country_id",nullable = false)
+    @JoinColumn(name = "city_id",nullable = false)
     @JsonIgnore
-    private Country country;
+    private City city;
 
     public House() {
     }
@@ -99,11 +99,11 @@ public class House {
         this.houseCategory = houseCategory;
     }
 
-    public Country getCountry() {
-        return country;
+    public City getCity() {
+        return city;
     }
 
-    public void setCountry(Country country) {
-        this.country = country;
+    public void setCity(City city) {
+        this.city = city;
     }
 }

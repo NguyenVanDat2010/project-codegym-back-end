@@ -1,7 +1,6 @@
 package com.airbnb.clone.model;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import org.springframework.web.multipart.MultipartFile;
+import com.airbnb.clone.validate.UniqueEmail;
 
 import javax.persistence.*;
 import javax.validation.constraints.Email;
@@ -27,6 +26,7 @@ public class AppUser {
     @Email
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "Email is required")
+    @UniqueEmail
     private String email;
     @Column
     private String image;
@@ -35,11 +35,6 @@ public class AppUser {
     private int phoneNumber;
     private Instant created;
     private boolean enabled;
-
-    @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false)
-    @JsonIgnore
-    private Country country;
 
     public AppUser() {
     }
@@ -122,13 +117,5 @@ public class AppUser {
 
     public void setPhoneNumber(int phoneNumber) {
         this.phoneNumber = phoneNumber;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
     }
 }

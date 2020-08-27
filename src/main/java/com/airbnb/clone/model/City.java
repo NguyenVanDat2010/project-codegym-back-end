@@ -14,11 +14,6 @@ public class City {
     @NotEmpty(message = "City is required")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "country_id", nullable = false)
-    @JsonIgnore
-    private Country country;
-
     public City() {
     }
 
@@ -36,13 +31,5 @@ public class City {
 
     public void setName(String name) {
         this.name = name;
-    }
-
-    public Country getCountry() {
-        return country;
-    }
-
-    public void setCountry(Country country) {
-        this.country = country;
     }
 }
