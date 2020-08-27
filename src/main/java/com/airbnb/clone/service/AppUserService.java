@@ -28,8 +28,6 @@ public class AppUserService implements UserDetailsService {
 
         return new User(appUser.getUsername(), appUser.getPassword(),appUser.isEnabled(), true,
                 true,true, getAuthorities("USER"));
-
-
     }
 
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {
