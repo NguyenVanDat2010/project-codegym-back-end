@@ -30,8 +30,6 @@ public class AppUser {
     private String email;
     @Column
     private String image;
-    @Transient
-    private MultipartFile imageFile;
     @Column(name = "phone_number", nullable = false, unique = true)
     @NotEmpty(message = "Phone number is required")
     private int phoneNumber;
@@ -116,14 +114,6 @@ public class AppUser {
 
     public void setImage(String image) {
         this.image = image;
-    }
-
-    public MultipartFile getImageFile() {
-        return imageFile;
-    }
-
-    public void setImageFile(MultipartFile imageFile) {
-        this.imageFile = imageFile;
     }
 
     public int getPhoneNumber() {
