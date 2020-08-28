@@ -44,13 +44,14 @@ public class AuthService {
     @Autowired
     private RefreshTokenService refreshTokenService;
     @Value("${backend.api}")
-    private String VERIFICATION_URL;
+    private String BACKEND_API;
 
     @Transactional
     public void signup(RegisterRequest registerRequest) {
         AppUser appUser = new AppUser();
         appUser.setFirstName(registerRequest.getFirstName());
         appUser.setLastName(registerRequest.getLastName());
+        appUser.setPhoneNumber(registerRequest.getPhoneNumber());
         appUser.setUsername(registerRequest.getUsername());
         appUser.setEmail(registerRequest.getEmail());
         appUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
@@ -62,7 +63,7 @@ public class AuthService {
         String token = generateVerificationToken(appUser);
         mailService.sendConfirmSignupMail(new NotificationEmail("Please Activate your account",
                 appUser.getEmail(), "Thank you for signing up, please click on the below url to " +
-                "active your account : " + VERIFICATION_URL + "/api/verificationToken/" + token));
+                "active your account : " + BACKEND_API + "/api/auth/accountVerification/" + token));
     }
 
     private String generateVerificationToken(AppUser appUser) {

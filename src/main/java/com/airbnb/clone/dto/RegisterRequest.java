@@ -5,19 +5,20 @@ import org.springframework.web.multipart.MultipartFile;
 public class RegisterRequest {
     private String firstName;
     private String lastName;
-    private String username;
-    private String email;
-    private String password;
     private String phoneNumber;
+    private String email;
+    private String username;
+    private String password;
 
     private MultipartFile imageFile;
 
     public RegisterRequest() {
     }
 
-    public RegisterRequest(String firstName, String lastName, String username, String email, String password) {
+    public RegisterRequest(String firstName, String lastName, String phoneNumber, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.username = username;
         this.email = email;
         this.password = password;
