@@ -45,4 +45,12 @@ public class AppUserService implements UserDetailsService {
     public Boolean existsByUserName(String username){
         return appUserRepository.existsByUsername(username);
     }
+
+    public Iterable<AppUser> getAllUsers(){
+        return appUserRepository.findAll();
+    }
+
+    public AppUser save(AppUser user){
+        return appUserRepository.save(user);
+    }
 }

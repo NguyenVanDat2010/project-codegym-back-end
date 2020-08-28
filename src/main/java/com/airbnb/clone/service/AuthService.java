@@ -1,9 +1,6 @@
 package com.airbnb.clone.service;
 
-import com.airbnb.clone.dto.AuthenticationResponse;
-import com.airbnb.clone.dto.LoginRequest;
-import com.airbnb.clone.dto.RefreshTokenRequest;
-import com.airbnb.clone.dto.RegisterRequest;
+import com.airbnb.clone.dto.*;
 import com.airbnb.clone.exception.AppException;
 import com.airbnb.clone.model.AppUser;
 import com.airbnb.clone.model.NotificationEmail;
@@ -52,6 +49,9 @@ public class AuthService {
     @Autowired
     private Environment environment;
 
+    @Autowired
+    private AppUserService userService;
+
     @Transactional
     public void signup(RegisterRequest registerRequest) {
         AppUser appUser = new AppUser();
@@ -60,12 +60,11 @@ public class AuthService {
         appUser.setUsername(registerRequest.getUsername());
         appUser.setEmail(registerRequest.getEmail());
         appUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-
-        appUser.setImage(getFileNameAndCopyFileUpload(registerRequest));
+        appUser.setPhoneNumber(registerRequest.getPhoneNumber());
         appUser.setCreated(Instant.now());
         appUser.setEnabled(false);
 
-        appUserRepository.save(appUser);
+        userService.save(appUser);
 
         String token = generateVerificationToken(appUser);
         mailService.sendConfirmSignupMail(new NotificationEmail("Please Activate your account",
@@ -73,8 +72,28 @@ public class AuthService {
                 "active your account : " + VERIFICATION_URL + token));
     }
 
-    private String getFileNameAndCopyFileUpload(RegisterRequest registerRequest){
-        MultipartFile file = registerRequest.getImageFile();
+    public void updateUser(UpdateUserRequest updateUserRequest){
+        AppUser user = new AppUser();
+        if (updateUserRequest.getId() != null){
+            user.setUserId(updateUserRequest.getId());
+        }
+        if (updateUserRequest.getImageFile() != null){
+            user.setImage(getFileNameAndCopyFileUpload(updateUserRequest));
+        }
+        user.setFirstName(updateUserRequest.getFirstName());
+        user.setLastName(updateUserRequest.getLastName());
+        user.setUsername(updateUserRequest.getUsername());
+        user.setEmail(updateUserRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
+        user.setPhoneNumber(updateUserRequest.getPhoneNumber());
+        user.setCreated(Instant.now());
+        user.setEnabled(false);
+        userService.save(user);
+    }
+
+
+    private String getFileNameAndCopyFileUpload(UpdateUserRequest updateUserRequest){
+        MultipartFile file = updateUserRequest.getImageFile();
         String fileName = file.getOriginalFilename();
         String fileUpload = environment.getProperty("upload.user").toString();
         try {
@@ -123,6 +142,7 @@ public class AuthService {
         String userName = loginRequest.getUsername();
         return new AuthenticationResponse(token, refreshToken,expiresAt, userName);
     }
+
     @Transactional(readOnly = true)
     public AppUser getCurrentUser() {
         org.springframework.security.core.userdetails.User principal =
