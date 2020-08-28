@@ -43,7 +43,7 @@ public class AuthService {
     private JwtProvider jwtProvider;
     @Autowired
     private RefreshTokenService refreshTokenService;
-    @Value("${mail.verification.url}")
+    @Value("${backend.api}")
     private String VERIFICATION_URL;
 
     @Transactional
@@ -62,7 +62,7 @@ public class AuthService {
         String token = generateVerificationToken(appUser);
         mailService.sendConfirmSignupMail(new NotificationEmail("Please Activate your account",
                 appUser.getEmail(), "Thank you for signing up, please click on the below url to " +
-                "active your account : " + VERIFICATION_URL + "/api/verificationToken" + token));
+                "active your account : " + VERIFICATION_URL + "/api/verificationToken/" + token));
     }
 
     private String generateVerificationToken(AppUser appUser) {
