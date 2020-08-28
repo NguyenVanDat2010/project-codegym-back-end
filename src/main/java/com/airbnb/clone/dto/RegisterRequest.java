@@ -8,7 +8,7 @@ public class RegisterRequest {
     private String username;
     private String email;
     private String password;
-    private int phoneNumber;
+    private String phoneNumber;
 
     private MultipartFile imageFile;
 
@@ -63,13 +63,6 @@ public class RegisterRequest {
         this.lastName = lastName;
     }
 
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     public MultipartFile getImageFile() {
         return imageFile;
@@ -77,5 +70,13 @@ public class RegisterRequest {
 
     public void setImageFile(MultipartFile imageFile) {
         this.imageFile = imageFile;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }

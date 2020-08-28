@@ -12,6 +12,7 @@ import com.airbnb.clone.repository.AppUserRepository;
 import com.airbnb.clone.repository.VerificationRepository;
 import com.airbnb.clone.security.JwtProvider;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -42,8 +43,8 @@ public class AuthService {
     private JwtProvider jwtProvider;
     @Autowired
     private RefreshTokenService refreshTokenService;
-    private static final String VERIFICATION_URL = "http://localhost:8080/api/auth" +
-            "/accountVerification/";
+    @Value("${mail.verification.url}")
+    private String VERIFICATION_URL;
 
     @Transactional
     public void signup(RegisterRequest registerRequest) {
@@ -61,7 +62,7 @@ public class AuthService {
         String token = generateVerificationToken(appUser);
         mailService.sendConfirmSignupMail(new NotificationEmail("Please Activate your account",
                 appUser.getEmail(), "Thank you for signing up, please click on the below url to " +
-                "active your account : " + VERIFICATION_URL + token));
+                "active your account : " + VERIFICATION_URL + "/api/verificationToken" + token));
     }
 
     private String generateVerificationToken(AppUser appUser) {
