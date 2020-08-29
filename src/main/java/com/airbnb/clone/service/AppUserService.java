@@ -33,4 +33,16 @@ public class AppUserService implements UserDetailsService {
     private Collection<? extends GrantedAuthority> getAuthorities(String role) {
         return singletonList(new SimpleGrantedAuthority(role));
     }
+
+    public Boolean existsByEmail(String email){
+        return appUserRepository.existsByEmail(email);
+    }
+
+    public Boolean existsByPhoneNumber(String phoneNumber){
+        return appUserRepository.existsByPhoneNumber(phoneNumber);
+    }
+
+    public Boolean existsByUserName(String username){
+        return appUserRepository.existsByUsername(username);
+    }
 }

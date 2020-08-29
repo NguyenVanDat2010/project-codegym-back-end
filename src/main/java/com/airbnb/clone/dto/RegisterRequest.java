@@ -1,11 +1,16 @@
 package com.airbnb.clone.dto;
 
+import org.springframework.web.multipart.MultipartFile;
+
 public class RegisterRequest {
     private String firstName;
     private String lastName;
     private String username;
     private String email;
     private String password;
+    private int phoneNumber;
+
+    private MultipartFile imageFile;
 
     public RegisterRequest() {
     }
@@ -56,5 +61,21 @@ public class RegisterRequest {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+    public int getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(int phoneNumber) {
+        this.phoneNumber = phoneNumber;
+    }
+
+    public MultipartFile getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(MultipartFile imageFile) {
+        this.imageFile = imageFile;
     }
 }
