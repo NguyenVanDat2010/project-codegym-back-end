@@ -1,25 +1,33 @@
 package com.airbnb.clone.dto;
 
+import com.airbnb.clone.validate.UniqueEmail;
+import com.airbnb.clone.validate.UniquePhoneNumber;
+import com.airbnb.clone.validate.UniqueUserName;
 import org.springframework.web.multipart.MultipartFile;
 
 public class RegisterRequest {
     private String firstName;
     private String lastName;
-    private String username;
-    private String email;
-    private String password;
+    @UniquePhoneNumber
     private String phoneNumber;
+    @UniqueEmail
+    private String email;
+    @UniqueUserName
+    private String username;
+    private String password;
+
+    private MultipartFile imageFile;
 
     public RegisterRequest() {
     }
 
-    public RegisterRequest(String firstName, String lastName, String username, String email, String password, String phoneNumber) {
+    public RegisterRequest(String firstName, String lastName, String phoneNumber, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.username = username;
         this.email = email;
         this.password = password;
-        this.phoneNumber = phoneNumber;
     }
 
     public String getUsername() {
@@ -60,6 +68,15 @@ public class RegisterRequest {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
+    }
+
+
+    public MultipartFile getImageFile() {
+        return imageFile;
+    }
+
+    public void setImageFile(MultipartFile imageFile) {
+        this.imageFile = imageFile;
     }
 
     public String getPhoneNumber() {
