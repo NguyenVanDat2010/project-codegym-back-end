@@ -5,19 +5,20 @@ import org.springframework.web.multipart.MultipartFile;
 public class RegisterRequest {
     private String firstName;
     private String lastName;
-    private String username;
+    private String phoneNumber;
     private String email;
+    private String username;
     private String password;
-    private int phoneNumber;
 
     private MultipartFile imageFile;
 
     public RegisterRequest() {
     }
 
-    public RegisterRequest(String firstName, String lastName, String username, String email, String password) {
+    public RegisterRequest(String firstName, String lastName, String phoneNumber, String username, String email, String password) {
         this.firstName = firstName;
         this.lastName = lastName;
+        this.phoneNumber = phoneNumber;
         this.username = username;
         this.email = email;
         this.password = password;
@@ -63,13 +64,6 @@ public class RegisterRequest {
         this.lastName = lastName;
     }
 
-    public int getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(int phoneNumber) {
-        this.phoneNumber = phoneNumber;
-    }
 
     public MultipartFile getImageFile() {
         return imageFile;
@@ -77,5 +71,13 @@ public class RegisterRequest {
 
     public void setImageFile(MultipartFile imageFile) {
         this.imageFile = imageFile;
+    }
+
+    public String getPhoneNumber() {
+        return phoneNumber;
+    }
+
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
 }
