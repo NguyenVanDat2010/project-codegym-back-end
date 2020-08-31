@@ -8,7 +8,9 @@ import com.airbnb.clone.model.VerificationToken;
 import com.airbnb.clone.repository.AppUserRepository;
 import com.airbnb.clone.repository.VerificationRepository;
 import com.airbnb.clone.security.JwtProvider;
+import com.airbnb.clone.validate.UniqueEmail;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
@@ -44,32 +46,29 @@ public class AuthService {
     private JwtProvider jwtProvider;
     @Autowired
     private RefreshTokenService refreshTokenService;
-    private static final String VERIFICATION_URL = "http://localhost:8080/api/auth" +
-            "/accountVerification/";
+    @Value("${backend.api}")
+    private String BACKEND_API;
     @Autowired
     private Environment environment;
-
-    @Autowired
-    private AppUserService userService;
 
     @Transactional
     public void signup(RegisterRequest registerRequest) {
         AppUser appUser = new AppUser();
         appUser.setFirstName(registerRequest.getFirstName());
         appUser.setLastName(registerRequest.getLastName());
+        appUser.setPhoneNumber(registerRequest.getPhoneNumber());
         appUser.setUsername(registerRequest.getUsername());
         appUser.setEmail(registerRequest.getEmail());
         appUser.setPassword(passwordEncoder.encode(registerRequest.getPassword()));
-        appUser.setPhoneNumber(registerRequest.getPhoneNumber());
         appUser.setCreated(Instant.now());
         appUser.setEnabled(false);
 
-        userService.save(appUser);
+        appUserRepository.save(appUser);
 
         String token = generateVerificationToken(appUser);
         mailService.sendConfirmSignupMail(new NotificationEmail("Please Activate your account",
                 appUser.getEmail(), "Thank you for signing up, please click on the below url to " +
-                "active your account : " + VERIFICATION_URL + token));
+                "active your account : " + BACKEND_API + "/api/auth/accountVerification/" + token));
     }
 
     public void updateUser(UpdateUserRequest updateUserRequest){
@@ -88,7 +87,7 @@ public class AuthService {
         user.setPhoneNumber(updateUserRequest.getPhoneNumber());
         user.setCreated(Instant.now());
         user.setEnabled(false);
-        userService.save(user);
+        appUserRepository.save(user);
     }
 
 
@@ -142,7 +141,6 @@ public class AuthService {
         String userName = loginRequest.getUsername();
         return new AuthenticationResponse(token, refreshToken,expiresAt, userName);
     }
-
     @Transactional(readOnly = true)
     public AppUser getCurrentUser() {
         org.springframework.security.core.userdetails.User principal =

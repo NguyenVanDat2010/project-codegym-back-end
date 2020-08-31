@@ -8,6 +8,10 @@ import com.airbnb.clone.service.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+<<<<<<< HEAD
+=======
+import org.springframework.validation.BindingResult;
+>>>>>>> d967b5020416020f09c73aec711a0d13625f705b
 import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
@@ -26,7 +30,11 @@ public class AuthController {
 
    @Validated
    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest) {
+    public ResponseEntity<String> signup(@Validated  @RequestBody RegisterRequest registerRequest, BindingResult result) {
+      if (registerRequest == null || result.hasErrors()){
+         System.out.println("Can sign up user");
+         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      }
        authService.signup(registerRequest);
        return new ResponseEntity<>( HttpStatus.OK);
    }
@@ -37,7 +45,11 @@ public class AuthController {
    }
 
    @PutMapping("/updateUser/{id}")
-   public ResponseEntity<AppUser> updateUser(@RequestBody UpdateUserRequest updateUserRequest){
+   public ResponseEntity<AppUser> updateUser(@Validated @RequestBody UpdateUserRequest updateUserRequest, BindingResult result){
+      if (updateUserRequest == null || result.hasErrors()){
+         System.out.println("Can update user");
+         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+      }
       authService.updateUser(updateUserRequest);
       return new ResponseEntity<>(HttpStatus.OK);
    }
