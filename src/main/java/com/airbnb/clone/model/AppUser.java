@@ -36,8 +36,7 @@ public class AppUser {
     @UniqueEmail
     @Pattern(regexp = "^([\\w-\\.]+){1,64}@([\\w&&[^_]]+){2,255}.[a-z]{2,}$", message = "Email must match, Ex: example@gmail.com")
     private String email;
-    @Column
-    private String image;
+
     @Column(name = "phone_number", nullable = false, unique = true)
     @NotEmpty(message = "Phone number is required")
     @Pattern(regexp = "(08|09|01[2|6|8|9])+([0-9]{8})\\b", message = "Phone number must match, Ex: 0989898989")
@@ -125,13 +124,7 @@ public class AppUser {
         this.lastName = lastName;
     }
 
-    public String getImage() {
-        return image;
-    }
 
-    public void setImage(String image) {
-        this.image = image;
-    }
 
     public @NotEmpty(message = "Phone number is required") String getPhoneNumber() {
         return phoneNumber;
@@ -140,4 +133,6 @@ public class AppUser {
     public void setPhoneNumber(@NotEmpty(message = "Phone number is required") String phoneNumber) {
         this.phoneNumber = phoneNumber;
     }
+
+
 }
