@@ -8,6 +8,7 @@ import com.airbnb.clone.service.RefreshTokenService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.*;
 
 import javax.validation.Valid;
@@ -23,6 +24,7 @@ public class AuthController {
    @Autowired
    private AppUserService userService;
 
+   @Validated
    @PostMapping("/signup")
     public ResponseEntity<String> signup(@RequestBody RegisterRequest registerRequest) {
        authService.signup(registerRequest);
@@ -60,4 +62,6 @@ public class AuthController {
       refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
       return ResponseEntity.status(HttpStatus.OK).body("Refresh token delete successfully");
    }
+
+
 }
