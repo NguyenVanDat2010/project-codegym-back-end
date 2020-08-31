@@ -24,9 +24,9 @@ public class Reservation {
     private AppUser user;
 
     @ManyToOne
-    @JoinColumn(name = "today_price_id", nullable = false)
+    @JoinColumn(name = "house_id", nullable = false)
     @JsonIgnore
-    private TodayPrice todayPrice;
+    private House house;
 
     public Reservation() {
     }
@@ -63,11 +63,5 @@ public class Reservation {
         this.user = user;
     }
 
-    public TodayPrice getTodayPrice() {
-        return todayPrice;
-    }
 
-    public void setTodayPrice(TodayPrice todayPrice) {
-        this.todayPrice = todayPrice;
-    }
 }

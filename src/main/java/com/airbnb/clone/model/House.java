@@ -18,9 +18,6 @@ public class House {
     @Column(nullable = false)
     @NotEmpty(message = "Address is required")
     private String address;
-    @Column
-    private String image;
-
     //Xác định là chủ nhà
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
@@ -62,14 +59,6 @@ public class House {
 
     public void setAddress(String address) {
         this.address = address;
-    }
-
-    public String getImage() {
-        return image;
-    }
-
-    public void setImage(String image) {
-        this.image = image;
     }
 
     public AppUser getUser() {
