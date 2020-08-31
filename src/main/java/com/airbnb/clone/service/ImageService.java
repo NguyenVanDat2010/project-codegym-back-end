@@ -3,7 +3,7 @@ package com.airbnb.clone.service;
 import com.airbnb.clone.exception.HouseNotFoundException;
 import com.airbnb.clone.model.House;
 import com.airbnb.clone.model.ImageModel;
-import com.airbnb.clone.repository.HouseRepository;
+import com.airbnb.clone.repository.IHouseRepository;
 import com.airbnb.clone.repository.ImageRepository;
 import org.apache.catalina.LifecycleState;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -25,7 +25,7 @@ public class ImageService {
     private ImageRepository imageRepository;
 
     @Autowired
-    private HouseRepository houseRepository;
+    private IHouseRepository houseRepository;
 
     public ImageModel saveImage(MultipartFile file, String houseId) throws IOException {
         ImageModel img =
