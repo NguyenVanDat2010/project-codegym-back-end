@@ -10,7 +10,6 @@ import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
-
 import java.util.Collection;
 import java.util.Optional;
 
@@ -19,6 +18,9 @@ import static java.util.Collections.singletonList;
 public class AppUserService implements UserDetailsService {
     @Autowired
     private AppUserRepository appUserRepository;
+    @Autowired
+    private AuthService authService;
+
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         Optional<AppUser> appUserOptional = appUserRepository.findByUsername(username);
