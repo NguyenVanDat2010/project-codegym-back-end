@@ -23,9 +23,12 @@ public class AppUser {
     @NotBlank(message = "Last name is required")
     private String lastName;
     @NotBlank(message = "Username is required")
+    @NotEmpty(message = "Username is required")
+    @Column(nullable = false,unique = true)
     @UniqueUserName
     private String username;
     @NotBlank(message = "Password is required")
+    @NotEmpty(message = "Password is required")
     private String password;
     @Email
     @Column(nullable = false, unique = true)
@@ -44,6 +47,18 @@ public class AppUser {
     private boolean enabled;
 
     public AppUser() {
+    }
+
+    public AppUser(String firstName, String lastName, String username, String email, String password, String phoneNumber, Instant created, boolean enabled, String image){
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+        this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.created = created;
+        this.enabled = enabled;
+        this.image = image;
     }
 
     public Long getUserId() {
