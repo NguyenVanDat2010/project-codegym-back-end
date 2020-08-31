@@ -1,22 +1,24 @@
 package com.airbnb.clone.dto;
 
-public class HouseRequest {
+public class HouseResponse {
     private Long houseId;
     private String houseName;
+    private String username;
     private String address;
     private String houseCategory;
     private String cityName;
     private String description;
     private Long price;
 
-    public HouseRequest() {
+    public HouseResponse() {
     }
 
-    public HouseRequest(Long houseId, String houseName, String houseCategory, String username, String address, String cityName, String description, Long price) {
+    public HouseResponse(Long houseId, String houseName, String username, String address, String houseCategory, String cityName, String description, Long price) {
         this.houseId = houseId;
         this.houseName = houseName;
-        this.houseCategory = houseCategory;
+        this.username = username;
         this.address = address;
+        this.houseCategory = houseCategory;
         this.cityName = cityName;
         this.description = description;
         this.price = price;
@@ -38,6 +40,14 @@ public class HouseRequest {
         this.houseName = houseName;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getHouseCategory() {
         return houseCategory;
     }
@@ -45,8 +55,6 @@ public class HouseRequest {
     public void setHouseCategory(String houseCategory) {
         this.houseCategory = houseCategory;
     }
-
-
 
     public String getCityName() {
         return cityName;
@@ -64,21 +72,19 @@ public class HouseRequest {
         this.description = description;
     }
 
-
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
-    }
-
     public Long getPrice() {
         return price;
     }
 
     public void setPrice(Long price) {
         this.price = price;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
     }
 }
