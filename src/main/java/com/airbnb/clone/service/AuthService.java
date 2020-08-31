@@ -63,7 +63,7 @@ public class AuthService {
         String token = generateVerificationToken(appUser);
         mailService.sendConfirmSignupMail(new NotificationEmail("Please Activate your account",
                 appUser.getEmail(), "Thank you for signing up, please click on the below url to " +
-                "active your account : " + BACKEND_API + "/api/auth/accountVerification/" + token));
+                "active your account : " + BACKEND_API + "api/auth/accountVerification/" + token));
     }
 
     private String generateVerificationToken(AppUser appUser) {
