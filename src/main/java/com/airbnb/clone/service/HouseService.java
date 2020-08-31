@@ -26,7 +26,7 @@ public class HouseService {
     public void saveHouse(HouseRequest houseRequest){
         HouseCategory houseCategory =houseCategoryRepository.findByName(houseRequest.getHouseCategory())
                 .orElseThrow(() -> new HouseRepositoryNotFoundException(houseRequest.getHouseCategory()));
-        AppUser currentUser =
+//        AppUser currentUser =
 
     }
 }
