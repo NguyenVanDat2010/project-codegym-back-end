@@ -14,10 +14,10 @@ public class HouseCategory {
     @NotEmpty(message = "Category is required")
     private String name;
 
-    @ManyToOne
-    @JoinColumn(name = "today_price_id", nullable = false)
-    @JsonIgnore
-    private TodayPrice todayPrice;
+//    @ManyToOne
+//    @JoinColumn(name = "today_price_id", nullable = false)
+//    @JsonIgnore
+//    private TodayPrice todayPrice;
 
     public HouseCategory() {
     }
@@ -38,11 +38,11 @@ public class HouseCategory {
         this.name = name;
     }
 
-    public TodayPrice getTodayPrice() {
-        return todayPrice;
-    }
-
-    public void setTodayPrice(TodayPrice todayPrice) {
-        this.todayPrice = todayPrice;
-    }
+//    public TodayPrice getTodayPrice() {
+//        return todayPrice;
+//    }
+//
+//    public void setTodayPrice(TodayPrice todayPrice) {
+//        this.todayPrice = todayPrice;
+//    }
 }

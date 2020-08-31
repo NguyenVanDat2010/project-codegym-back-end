@@ -26,7 +26,7 @@ public class AuthController {
    private AppUserService userService;
 
    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@Validated  @RequestBody RegisterRequest registerRequest, BindingResult result) {
+    public ResponseEntity<String> signup(@Valid @RequestBody RegisterRequest registerRequest, BindingResult result) {
       if (registerRequest == null || result.hasErrors()){
          System.out.println("Can sign up user");
          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
