@@ -18,15 +18,20 @@ public class Reservation {
     @NotEmpty(message = "End date is required")
     private String end_date;
 
+    @ManyToOne
+    @JoinColumn(name = "house_id", nullable = false)
+    @JsonIgnore
+    private House house;
+
     //Xác định khách hàng thuê nhà
     @ManyToOne
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
 
-    @ManyToOne
-    @JoinColumn(name = "today_price_id", nullable = false)
-    @JsonIgnore
-    private TodayPrice todayPrice;
+//    @ManyToOne
+//    @JoinColumn(name = "today_price_id", nullable = false)
+//    @JsonIgnore
+//    private TodayPrice todayPrice;
 
     public Reservation() {
     }
@@ -55,6 +60,14 @@ public class Reservation {
         this.end_date = end_date;
     }
 
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
+    }
+
     public AppUser getUser() {
         return user;
     }
@@ -63,11 +76,11 @@ public class Reservation {
         this.user = user;
     }
 
-    public TodayPrice getTodayPrice() {
-        return todayPrice;
-    }
-
-    public void setTodayPrice(TodayPrice todayPrice) {
-        this.todayPrice = todayPrice;
-    }
+//    public TodayPrice getTodayPrice() {
+//        return todayPrice;
+//    }
+//
+//    public void setTodayPrice(TodayPrice todayPrice) {
+//        this.todayPrice = todayPrice;
+//    }
 }

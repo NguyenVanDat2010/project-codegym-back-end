@@ -55,4 +55,8 @@ public class AppUserService implements UserDetailsService {
     public AppUser save(AppUser user){
         return appUserRepository.save(user);
     }
+
+    public Optional<AppUser> getUserByUsername(String username){
+        return appUserRepository.findByUsername(username);
+    }
 }

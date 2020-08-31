@@ -19,6 +19,7 @@ import javax.validation.Valid;
 public class AuthController {
    @Autowired
    private AuthService authService;
+
    @Autowired
    private RefreshTokenService refreshTokenService;
 
@@ -41,7 +42,7 @@ public class AuthController {
    }
 
    @PutMapping("/updateUser/{id}")
-   public ResponseEntity<AppUser> updateUser(@Validated @RequestBody UpdateUserRequest updateUserRequest, BindingResult result){
+   public ResponseEntity<AppUser> updateUser(@Valid @RequestBody UpdateUserRequest updateUserRequest, BindingResult result){
       if (updateUserRequest == null || result.hasErrors()){
          System.out.println("Can update user");
          return new ResponseEntity<>(HttpStatus.NO_CONTENT);
