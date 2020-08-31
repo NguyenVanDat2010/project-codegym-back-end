@@ -1,11 +1,16 @@
 package com.airbnb.clone.model;
 
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
 
 import static javax.persistence.FetchType.LAZY;
 
 @Entity
+@AllArgsConstructor
+@Builder
 public class ImageModel {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
