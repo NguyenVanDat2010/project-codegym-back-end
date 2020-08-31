@@ -52,7 +52,7 @@ public class JwtProvider {
 
     private PrivateKey getPrivateKey() {
         try {
-            return (PrivateKey) keyStore.getKey("redditclone",keyStorePassword.toCharArray());
+            return (PrivateKey) keyStore.getKey("projectbackend",keyStorePassword.toCharArray());
         } catch (UnrecoverableKeyException | NoSuchAlgorithmException | KeyStoreException e) {
             throw new AppException("Exception occured while retrieving public key from " +
                     "key store");

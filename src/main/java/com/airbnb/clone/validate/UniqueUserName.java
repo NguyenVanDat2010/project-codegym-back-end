@@ -11,7 +11,7 @@ import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
 @Documented
 @Target({ElementType.METHOD, ElementType.FIELD})
-@Constraint(validatedBy = UniqueEmailValidator.class)
+@Constraint(validatedBy = UniqueUserNameValidator.class)
 @Retention(RUNTIME)
 public @interface UniqueUserName {
     String message() default "Username already in use!";

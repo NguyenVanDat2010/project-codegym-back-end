@@ -24,7 +24,7 @@ public class Reservation {
     private AppUser user;
 
     @ManyToOne
-    @JoinColumn(name = "house_id", nullable = false)
+    @JoinColumn(name = "house_id", nullable = false, referencedColumnName = "id")
     @JsonIgnore
     private House house;
 
@@ -64,4 +64,11 @@ public class Reservation {
     }
 
 
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
+    }
 }
