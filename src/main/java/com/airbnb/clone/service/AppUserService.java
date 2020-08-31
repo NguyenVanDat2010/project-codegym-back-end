@@ -18,8 +18,6 @@ import static java.util.Collections.singletonList;
 public class AppUserService implements UserDetailsService {
     @Autowired
     private AppUserRepository appUserRepository;
-    @Autowired
-    private AuthService authService;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
