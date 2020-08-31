@@ -15,28 +15,34 @@ public class House {
     @Column(nullable = false)
     @NotEmpty(message = "Name is required")
     private String name;
+
     @Column(nullable = false)
     @NotEmpty(message = "Address is required")
     private String address;
-//    @Column
-//    private String image;
+
+    @Column(nullable = false)
+    @NotEmpty(message = "Description is required")
+    private String description;
+
+    @Column(nullable = false)
+    @NotEmpty(message = "price is required")
+    private int price;
 
     //Xác định là chủ nhà
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
     @JsonIgnore
-    private AppUser user;
+    private AppUser appUser;
 
     @ManyToOne
-    @JoinColumn(name = "house_category_id",nullable = false)
+    @JoinColumn(name = "house_category_id",nullable = false, referencedColumnName = "id")
     @JsonIgnore
     private HouseCategory houseCategory;
 
     @ManyToOne
-    @JoinColumn(name = "city_id",nullable = false)
+    @JoinColumn(name = "city_id",nullable = false, referencedColumnName = "id")
     @JsonIgnore
     private City city;
-
 
     public House() {
     }
@@ -65,20 +71,21 @@ public class House {
         this.address = address;
     }
 
-//    public String getImage() {
-//        return image;
-//    }
-//
-//    public void setImage(String image) {
-//        this.image = image;
-//    }
 
-    public AppUser getUser() {
-        return user;
+    public String getDescription() {
+        return description;
     }
 
-    public void setUser(AppUser user) {
-        this.user = user;
+    public void setDescription(String description) {
+        this.description = description;
+    }
+
+    public AppUser getAppUser() {
+        return appUser;
+    }
+
+    public void setAppUser(AppUser appUser) {
+        this.appUser = appUser;
     }
 
     public HouseCategory getHouseCategory() {
@@ -97,5 +104,11 @@ public class House {
         this.city = city;
     }
 
+    public int getPrice() {
+        return price;
+    }
 
+    public void setPrice(int price) {
+        this.price = price;
+    }
 }
