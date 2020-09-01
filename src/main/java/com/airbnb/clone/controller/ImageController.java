@@ -1,5 +1,6 @@
 package com.airbnb.clone.controller;
 
+import com.airbnb.clone.dto.ResponseMessage;
 import com.airbnb.clone.model.ImageModel;
 import com.airbnb.clone.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,17 +19,18 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping
-    public ResponseEntity<String> uploadFiles(
+    public ResponseEntity<ResponseMessage> uploadFiles(
             @RequestPart("file")MultipartFile file,
             @RequestPart("houseId") String houseId) {
         String message = "";
         try {
             imageService.saveImage(file,Long.parseLong(houseId));
             message = "Upload the file successfully: " + file.getOriginalFilename();
-            return new ResponseEntity<>(message,HttpStatus.OK);
+            return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.OK);
         } catch (IOException e) {
             message = "Could not upload the file: " + file.getOriginalFilename();
-            return new ResponseEntity<>(message, HttpStatus.EXPECTATION_FAILED);
+            return new ResponseEntity<>(new ResponseMessage(message),
+                    HttpStatus.EXPECTATION_FAILED);
         }
     }
 
