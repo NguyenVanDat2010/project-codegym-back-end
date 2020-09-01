@@ -14,7 +14,7 @@ import java.util.List;
 import java.util.Optional;
 
 @RestController
-@RequestMapping("/api/auth")
+@RequestMapping("/api/reservations")
 public class ReservationController {
     @Autowired
     private ReservationService reservationService;
@@ -22,16 +22,19 @@ public class ReservationController {
     @Autowired
     private AppUserService userService;
 
-    @GetMapping("/reservationsByUser/{username}")
+    @GetMapping("/byUsername/{username}")
     public ResponseEntity<List<ReservationDto>>getAllReservationsByUser(@PathVariable String username){
         return new ResponseEntity<>(reservationService.getAllReservationsByUser(username), HttpStatus.OK);
     }
 
-    @GetMapping("/reservationsByHouse/{houseId}")
+    @GetMapping("/byHouse/{houseId}")
     public ResponseEntity<Iterable<ReservationDto>>getAllReservationsByHouse(@PathVariable Long houseId) {
         return new ResponseEntity<>(reservationService.getAllReservationsByHouse(houseId), HttpStatus.OK);
     }
 
-//    @PostMapping("/reservations")
-//    public ResponseEntity<Reservation>
+    @PostMapping
+    public ResponseEntity<ReservationDto> reservationHouseByCurrentUser(@RequestBody ReservationDto reservationDto){
+        reservationService.saveReservation(reservationDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
+    }
 }

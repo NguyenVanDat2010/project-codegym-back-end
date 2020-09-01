@@ -34,33 +34,31 @@ public class ReservationService {
     @Autowired
     private IHouseRepository houseRepository;
 
+    @Autowired
+    private AuthService authService;
+
     public void remove(Long id) {
         reservationRepository.deleteById(id);
     }
 
     public List<ReservationDto> getAllReservationsByUser(String username) {
-        AppUser user = userRepository.findByUsername(username).orElseThrow(() -> new AppUserNotFoundException(username.toString()));
+        AppUser user = userRepository.findByUsername(username)
+                .orElseThrow(() -> new AppUserNotFoundException(username.toString()));
         List<Reservation> reservations = reservationRepository.findAllByUser(user);
         return reservations.stream().map(reservationMapper::mapToDo).collect(toList());
     }
 
     public List<ReservationDto> getAllReservationsByHouse(Long houseId) {
-        House house = houseRepository.findById(houseId).orElseThrow(()-> new HouseNotFoundException(houseId.toString()));
+        House house = houseRepository.findById(houseId)
+                .orElseThrow(() -> new HouseNotFoundException(houseId.toString()));
         List<Reservation> reservations = reservationRepository.findAllByHouse(house);
         return reservations.stream().map(reservationMapper::mapToDo).collect(toList());
     }
 
-//    public List<ReservationDto> findAllByUser(AppUser user) {
-//        Iterable<Reservation> reservations = reservationRepository.findAllByUser(user);
-//        List<ReservationDto> reservationDtos = new ArrayList<>();
-//        for (Reservation reservation: reservations){
-//            ReservationDto reservationDto = new ReservationDto();
-//            reservationDto.setId(reservation.getId());
-//            reservationDto.setStart_date(reservation.getStart_date());
-//            reservationDto.setEnd_date(reservation.getEnd_date());
-//            reservationDto.setUsername(reservation.getUser().getUsername());
-//            reservationDtos.add(reservationDto);
-//        }
-//        return  reservationDtos;
-//    }
+    public void saveReservation(ReservationDto reservationDto){
+        House house = houseRepository.findById(reservationDto.getHouseId())
+                .orElseThrow(() -> new HouseNotFoundException(reservationDto.getId().toString()));
+        AppUser currentUser = authService.getCurrentUser();
+        reservationRepository.save(reservationMapper.map(reservationDto,house,currentUser));
+    }
 }

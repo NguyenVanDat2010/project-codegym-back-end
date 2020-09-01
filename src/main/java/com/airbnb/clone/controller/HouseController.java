@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
 @RestController
-@RequestMapping("/api/houses/")
+@RequestMapping("/api/houses")
 public class HouseController {
     @Autowired
     private HouseService houseService;
