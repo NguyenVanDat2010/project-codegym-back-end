@@ -21,7 +21,6 @@ public class MailService {
     void sendConfirmSignupMail(NotificationEmail notificationEmail) {
         MimeMessagePreparator messagePreparator = mimeMessage -> {
             MimeMessageHelper messageHelper = new MimeMessageHelper(mimeMessage);
-            messageHelper.setFrom("vogiacu@vogiacu.com");
             messageHelper.setTo(notificationEmail.getRecipient());
             messageHelper.setSubject(notificationEmail.getSubject());
             messageHelper.setText(mailContentBuilder.build(notificationEmail.getBody()));
