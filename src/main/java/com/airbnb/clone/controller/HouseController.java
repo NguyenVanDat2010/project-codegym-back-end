@@ -2,6 +2,7 @@ package com.airbnb.clone.controller;
 
 import com.airbnb.clone.dto.HouseRequest;
 import com.airbnb.clone.dto.HouseResponse;
+import com.airbnb.clone.model.HouseCategory;
 import com.airbnb.clone.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -18,9 +19,8 @@ public class HouseController {
 
 
     @PostMapping
-    public ResponseEntity<Void> createHouse(@RequestBody HouseRequest houseRequest){
-        houseService.saveHouse(houseRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<HouseResponse> createHouse(@RequestBody HouseRequest houseRequest){
+        return new ResponseEntity<>(houseService.saveHouse(houseRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -43,6 +43,4 @@ public class HouseController {
     public ResponseEntity<List<HouseResponse>> getPostsByAppUser(@PathVariable String name) {
         return new ResponseEntity<>(houseService.getAllHouseByUsername(name),HttpStatus.OK);
     }
-
-
 }
