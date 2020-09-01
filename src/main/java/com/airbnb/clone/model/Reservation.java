@@ -23,10 +23,10 @@ public class Reservation {
     @JoinColumn(name = "user_id", nullable = false)
     private AppUser user;
 
-//    @ManyToOne
-//    @JoinColumn(name = "today_price_id", nullable = false)
-//    @JsonIgnore
-////    private TodayPrice todayPrice;
+    @ManyToOne
+    @JoinColumn(name = "house_id", nullable = false, referencedColumnName = "id")
+    @JsonIgnore
+    private House house;
 
     public Reservation() {
     }
@@ -63,11 +63,12 @@ public class Reservation {
         this.user = user;
     }
 
-//    public TodayPrice getTodayPrice() {
-//        return todayPrice;
-//    }
-//
-//    public void setTodayPrice(TodayPrice todayPrice) {
-//        this.todayPrice = todayPrice;
-//    }
+
+    public House getHouse() {
+        return house;
+    }
+
+    public void setHouse(House house) {
+        this.house = house;
+    }
 }

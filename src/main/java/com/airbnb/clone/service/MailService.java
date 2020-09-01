@@ -29,6 +29,7 @@ public class MailService {
         try {
             mailSender.send(messagePreparator);
         } catch (MailException e) {
+            e.printStackTrace();
             throw new AppException("Exception occured when sending mail to "
                     + notificationEmail.getRecipient());
         }

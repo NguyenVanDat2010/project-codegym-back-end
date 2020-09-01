@@ -5,11 +5,10 @@ import com.airbnb.clone.service.ImageService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.IOException;
 import java.util.List;
 
 @RestController
@@ -17,6 +16,21 @@ import java.util.List;
 public class ImageController {
     @Autowired
     private ImageService imageService;
+
+    @PostMapping
+    public ResponseEntity<String> uploadFiles(
+            @RequestPart("file")MultipartFile file,
+            @RequestPart("houseId") String houseId) {
+        String message = "";
+        try {
+            imageService.saveImage(file,Long.parseLong(houseId));
+            message = "Upload the file successfully: " + file.getOriginalFilename();
+            return new ResponseEntity<>(message,HttpStatus.OK);
+        } catch (IOException e) {
+            message = "Could not upload the file: " + file.getOriginalFilename();
+            return new ResponseEntity<>(message, HttpStatus.EXPECTATION_FAILED);
+        }
+    }
 
     @GetMapping("/by-house/{houseId}")
     public ResponseEntity<List<ImageModel>> getImage(@PathVariable("houseId") Long houseId) {
