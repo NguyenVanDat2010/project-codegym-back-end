@@ -9,6 +9,7 @@ import org.springframework.data.jpa.repository.Modifying;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 public interface IReservationRepository extends JpaRepository<Reservation, Long> {
@@ -16,12 +17,11 @@ public interface IReservationRepository extends JpaRepository<Reservation, Long>
 
     List<Reservation> findAllByHouse(House house);
 
-//    @Modifying
-//    @Query(value = "SELECT * FROM reservation WHERE house_id=? NOT BETWEEN :start_date AND :end_date", nativeQuery = true)
-//    public List<EntityClassTable> getAllBetweenDates(@Param("startDate")String startDate, @Param("endDate")Date endDate);
-
-
-    Reservation findReservationByHouseBetween(House house, String startDate, String endDate);
+    @Modifying
+    @Query(value = "SELECT * FROM reservation WHERE house_id= :houseId and ((start_date between :startDate and :endDate )" +
+                    "or (end_date between :startDate and :endDate )" +
+                    "or (start_date <= :startDate and end_date >= :endDate ))", nativeQuery = true)
+    List<Reservation> getAllByHouseIdAndStartDateAndEndDate(@Param("houseId")Long house_id ,@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate);
 
 }
 

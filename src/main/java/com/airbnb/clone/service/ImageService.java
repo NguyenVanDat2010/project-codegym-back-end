@@ -15,6 +15,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.util.List;
+import java.util.UUID;
 import java.util.zip.DataFormatException;
 import java.util.zip.Deflater;
 import java.util.zip.Inflater;
@@ -27,14 +28,17 @@ public class ImageService {
     @Autowired
     private IHouseRepository houseRepository;
 
-    public ImageModel saveImage(MultipartFile file, String houseId) throws IOException {
+    public void saveImage(MultipartFile file, Long houseId) throws IOException {
+        House house =
+                houseRepository.findById(houseId).orElseThrow(() -> new HouseNotFoundException(houseId.toString()));
         ImageModel img =
                 ImageModel.builder()
-                        .name(file.getOriginalFilename())
+                        .name(UUID.randomUUID().toString())
                         .type(file.getContentType())
+                        .house(house)
                         .picByte(compressBytes(file.getBytes()))
                         .build();
-        return imageRepository.save(img);
+        imageRepository.save(img);
     }
     public List<ImageModel> getAllImageByHouseId(Long houseId) {
         House house =

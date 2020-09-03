@@ -2,6 +2,10 @@ package com.airbnb.clone.controller;
 
 import com.airbnb.clone.dto.HouseRequest;
 import com.airbnb.clone.dto.HouseResponse;
+import com.airbnb.clone.model.City;
+import com.airbnb.clone.model.HouseCategory;
+import com.airbnb.clone.service.CityService;
+import com.airbnb.clone.service.HouseCategoryService;
 import com.airbnb.clone.service.HouseService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
@@ -15,12 +19,14 @@ import java.util.List;
 public class HouseController {
     @Autowired
     private HouseService houseService;
-
+    @Autowired
+    private HouseCategoryService houseCategoryService;
+    @Autowired
+    private CityService cityService;
 
     @PostMapping
-    public ResponseEntity<Void> createHouse(@RequestBody HouseRequest houseRequest){
-        houseService.saveHouse(houseRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<HouseResponse> createHouse(@RequestBody HouseRequest houseRequest){
+        return new ResponseEntity<>(houseService.saveHouse(houseRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")
@@ -43,6 +49,13 @@ public class HouseController {
     public ResponseEntity<List<HouseResponse>> getPostsByAppUser(@PathVariable String name) {
         return new ResponseEntity<>(houseService.getAllHouseByUsername(name),HttpStatus.OK);
     }
+    @GetMapping("/show-all-city")
+    public ResponseEntity<List<City>> getAllCities(){
+        return new ResponseEntity<>(cityService.showAllCity(),HttpStatus.OK);
+    }
 
-
+    @GetMapping("/show-all-houseCategory")
+    public ResponseEntity<List<HouseCategory>> getAllHousesCategory(){
+        return new ResponseEntity<>(houseCategoryService.showAllHouseCategories(),HttpStatus.OK);
+    }
 }

@@ -42,13 +42,17 @@ public class HouseService {
     @Autowired
     private HouseMapper houseMapper;
 
-    public void saveHouse(HouseRequest houseRequest){
+    public HouseResponse saveHouse(HouseRequest houseRequest){
         HouseCategory houseCategory =houseCategoryRepository.findByName(houseRequest.getHouseCategory())
                 .orElseThrow(() -> new HouseCategoryNotFoundException(houseRequest.getHouseCategory()));
         AppUser currentUser = authService.getCurrentUser();
         City city = cityRepository.findByName(houseRequest.getCityName())
                 .orElseThrow(() -> new CityNotFoundException(houseRequest.getCityName()));
-        houseRepository.save(houseMapper.map(houseRequest,city,houseCategory,currentUser));
+        House house = houseRepository.save(houseMapper.map(houseRequest,city,
+                houseCategory,
+                currentUser));
+        return houseMapper.mapToDto(house);
+
     }
 
     public HouseResponse getHouse(Long id){

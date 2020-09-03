@@ -55,10 +55,15 @@ public class ReservationService {
         return reservations.stream().map(reservationMapper::mapToDo).collect(toList());
     }
 
-    public void saveReservation(ReservationDto reservationDto){
-        House house = houseRepository.findById(reservationDto.getHouseId())
-                .orElseThrow(() -> new HouseNotFoundException(reservationDto.getId().toString()));
-        AppUser currentUser = authService.getCurrentUser();
-        reservationRepository.save(reservationMapper.map(reservationDto,house,currentUser));
+    public ReservationDto saveReservation(ReservationDto reservationDto){
+        List<Reservation> reservations = reservationRepository.getAllByHouseIdAndStartDateAndEndDate(reservationDto.getHouseId(),reservationDto.getStartDate(), reservationDto.getEndDate());
+        if (reservations.size() == 0){
+            House house = houseRepository.findById(reservationDto.getHouseId())
+                    .orElseThrow(() -> new HouseNotFoundException(reservationDto.getId().toString()));
+            AppUser currentUser = authService.getCurrentUser();
+            reservationRepository.save(reservationMapper.map(reservationDto, house, currentUser));
+            return reservationDto;
+        }
+        return null;
     }
 }

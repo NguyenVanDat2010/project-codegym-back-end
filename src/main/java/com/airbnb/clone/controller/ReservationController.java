@@ -8,6 +8,7 @@ import com.airbnb.clone.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
@@ -33,8 +34,14 @@ public class ReservationController {
     }
 
     @PostMapping
-    public ResponseEntity<ReservationDto> reservationHouseByCurrentUser(@RequestBody ReservationDto reservationDto){
-        reservationService.saveReservation(reservationDto);
+    public ResponseEntity<ReservationDto> reservationHouseByCurrentUser(@RequestBody ReservationDto reservationDto, BindingResult result){
+        if (result.hasErrors()){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
+        ReservationDto reservationDto1 = reservationService.saveReservation(reservationDto);
+        if (reservationDto1 == null){
+            return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+        }
         return new ResponseEntity<>(HttpStatus.CREATED);
     }
 }
