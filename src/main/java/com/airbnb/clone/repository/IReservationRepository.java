@@ -18,7 +18,8 @@ public interface IReservationRepository extends JpaRepository<Reservation, Long>
     List<Reservation> findAllByHouse(House house);
 
     @Modifying
-    @Query(value = "SELECT * FROM reservation WHERE house_id= :houseId and ((start_date between :startDate and :endDate )" +
+    @Query(value = "SELECT * FROM reservation WHERE house_id= :houseId " +
+                    "and ((start_date between :startDate and :endDate )" +
                     "or (end_date between :startDate and :endDate )" +
                     "or (start_date <= :startDate and end_date >= :endDate )" +
                     "or (start_date >= :startDate and end_date <= :endDate ))", nativeQuery = true)
