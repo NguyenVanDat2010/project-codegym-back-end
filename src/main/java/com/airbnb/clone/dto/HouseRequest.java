@@ -7,12 +7,12 @@ public class HouseRequest {
     private String houseCategory;
     private String cityName;
     private String description;
-    private Long price;
+    private Integer price;
 
     public HouseRequest() {
     }
 
-    public HouseRequest(Long houseId, String houseName, String houseCategory, String username, String address, String cityName, String description, Long price) {
+    public HouseRequest(Long houseId, String houseName, String houseCategory, String username, String address, String cityName, String description, Integer price) {
         this.houseId = houseId;
         this.houseName = houseName;
         this.houseCategory = houseCategory;
@@ -74,11 +74,11 @@ public class HouseRequest {
         this.address = address;
     }
 
-    public Long getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 }

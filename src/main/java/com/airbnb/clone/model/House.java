@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import org.springframework.web.multipart.MultipartFile;
 
 import javax.persistence.*;
+import javax.validation.constraints.Min;
 import javax.validation.constraints.NotEmpty;
 
 @Entity
@@ -22,10 +23,11 @@ public class House {
 
     @Column(nullable = false)
     @NotEmpty(message = "Description is required")
+    @Lob
     private String description;
 
     @Column(nullable = false)
-    @NotEmpty(message = "price is required")
+    @Min(1)
     private int price;
 
     //Xác định là chủ nhà
