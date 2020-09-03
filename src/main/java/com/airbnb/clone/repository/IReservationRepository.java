@@ -19,11 +19,19 @@ public interface IReservationRepository extends JpaRepository<Reservation, Long>
 
     @Modifying
     @Query(value = "SELECT * FROM reservation WHERE house_id= :houseId " +
-                    "and ((start_date between :startDate and :endDate )" +
-                    "or (end_date between :startDate and :endDate )" +
-                    "or (start_date <= :startDate and end_date >= :endDate )" +
-                    "or (start_date >= :startDate and end_date <= :endDate ))", nativeQuery = true)
+            "and ((start_date between :startDate and :endDate )" +
+            "or (end_date between :startDate and :endDate )" +
+            "or (start_date <= :startDate and end_date >= :endDate )" +
+            "or (start_date >= :startDate and end_date <= :endDate ))", nativeQuery = true)
     List<Reservation> getAllByHouseIdAndStartDateAndEndDate(@Param("houseId")Long house_id ,@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate);
+
+    @Modifying
+    @Query(value = "SELECT * FROM reservation WHERE id != :reservationId and house_id= :houseId " +
+            "and ((start_date between :startDate and :endDate )" +
+            "or (end_date between :startDate and :endDate )" +
+            "or (start_date <= :startDate and end_date >= :endDate )" +
+            "or (start_date >= :startDate and end_date <= :endDate ))", nativeQuery = true)
+    List<Reservation> getAllByHouseIdAndStartDateAndEndDateToUpdate(@Param("reservationId")Long reservationId, @Param("houseId")Long house_id ,@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate);
 
 }
 

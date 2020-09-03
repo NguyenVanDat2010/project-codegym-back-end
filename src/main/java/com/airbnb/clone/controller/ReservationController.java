@@ -43,6 +43,33 @@ public class ReservationController {
         if (reservationDto1 == null){
             return ResponseEntity.badRequest().body(new MessageResponse("Reservation failed!"));
         }
-        return new ResponseEntity<>(new MessageResponse("Reservation successed!"),HttpStatus.CREATED);
+        return new ResponseEntity<>(new MessageResponse("Reservation succeed!"),HttpStatus.CREATED);
+    }
+
+    @GetMapping("/{id}")
+    public ResponseEntity<?> updateReservationForm(@PathVariable Long id){
+        ReservationDto reservationDto = reservationService.findReservationById(id);
+        if (reservationDto == null){
+            return ResponseEntity.badRequest().body(new MessageResponse("Get reservation failed!"));
+        }
+        return new ResponseEntity<>(reservationDto,HttpStatus.OK);
+    }
+
+    @PutMapping
+    public ResponseEntity<?> updateReservationByIdAndCurrentUser(@RequestBody ReservationDto reservationDto, BindingResult result){
+        if (result.hasErrors()){
+            return ResponseEntity.badRequest().body(new MessageResponse("Update reservation failed!"));
+        }
+        ReservationDto reservationDto1 = reservationService.updateReservation(reservationDto);
+        if (reservationDto1 == null){
+            return ResponseEntity.badRequest().body(new MessageResponse("Update reservation failed!"));
+        }
+        return new ResponseEntity<>(new MessageResponse("Update reservation succeed!"),HttpStatus.OK);
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<?> deleteReservation(@PathVariable Long id){
+        reservationService.remove(id);
+        return new ResponseEntity<>(HttpStatus.OK);
     }
 }

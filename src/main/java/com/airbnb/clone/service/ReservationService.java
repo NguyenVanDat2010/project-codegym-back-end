@@ -3,6 +3,7 @@ package com.airbnb.clone.service;
 import com.airbnb.clone.dto.ReservationDto;
 import com.airbnb.clone.exception.AppUserNotFoundException;
 import com.airbnb.clone.exception.HouseNotFoundException;
+import com.airbnb.clone.exception.ReservationNotFoundException;
 import com.airbnb.clone.mapper.ReservationMapper;
 import com.airbnb.clone.model.AppUser;
 import com.airbnb.clone.model.House;
@@ -13,10 +14,8 @@ import com.airbnb.clone.repository.IReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
-import java.util.stream.Collectors;
 
 import static java.util.stream.Collectors.toList;
 
@@ -36,6 +35,12 @@ public class ReservationService {
 
     @Autowired
     private AuthService authService;
+
+    public ReservationDto findReservationById(Long id){
+        Reservation reservation = reservationRepository.findById(id)
+                .orElseThrow(()-> new ReservationNotFoundException(id.toString()));
+        return reservationMapper.mapToDo(reservation);
+    }
 
     public void remove(Long id) {
         reservationRepository.deleteById(id);
@@ -57,6 +62,18 @@ public class ReservationService {
 
     public ReservationDto saveReservation(ReservationDto reservationDto){
         List<Reservation> reservations = reservationRepository.getAllByHouseIdAndStartDateAndEndDate(reservationDto.getHouseId(),reservationDto.getStartDate(), reservationDto.getEndDate());
+        if (reservations.size() == 0){
+            House house = houseRepository.findById(reservationDto.getHouseId())
+                    .orElseThrow(() -> new HouseNotFoundException(reservationDto.getId().toString()));
+            AppUser currentUser = authService.getCurrentUser();
+            reservationRepository.save(reservationMapper.map(reservationDto, house, currentUser));
+            return reservationDto;
+        }
+        return null;
+    }
+
+    public ReservationDto updateReservation(ReservationDto reservationDto){
+        List<Reservation> reservations = reservationRepository.getAllByHouseIdAndStartDateAndEndDateToUpdate(reservationDto.getId(),reservationDto.getHouseId(),reservationDto.getStartDate(), reservationDto.getEndDate());
         if (reservations.size() == 0){
             House house = houseRepository.findById(reservationDto.getHouseId())
                     .orElseThrow(() -> new HouseNotFoundException(reservationDto.getId().toString()));
