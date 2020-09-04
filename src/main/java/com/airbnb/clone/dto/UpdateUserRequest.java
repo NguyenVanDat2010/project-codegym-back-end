@@ -10,14 +10,15 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
-public class RegisterRequest {
+public class UpdateUserRequest {
+    private Long id;
     @NotBlank(message = "First name is required")
     private String firstName;
     @NotBlank(message = "Last name is required")
     private String lastName;
-    @UniquePhoneNumber
+//    @UniquePhoneNumber
     private String phoneNumber;
-    @UniqueEmail
+//    @UniqueEmail
     @Email
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "Email is required")
@@ -30,19 +31,44 @@ public class RegisterRequest {
     @NotBlank(message = "Password is required")
     @NotEmpty(message = "Password is required")
     private String password;
-
     private MultipartFile imageFile;
 
-    public RegisterRequest() {
+    public UpdateUserRequest() {
     }
 
-    public RegisterRequest(String firstName, String lastName, String phoneNumber, String username, String email, String password) {
+    public UpdateUserRequest(Long id,String firstName, String lastName, String username, String email, String password, String phoneNumber, MultipartFile imageFile) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
-        this.phoneNumber = phoneNumber;
         this.username = username;
         this.email = email;
         this.password = password;
+        this.phoneNumber = phoneNumber;
+        this.imageFile = imageFile;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getFirstName() {
+        return firstName;
+    }
+
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
+    }
+
+    public String getLastName() {
+        return lastName;
+    }
+
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getUsername() {
@@ -69,22 +95,13 @@ public class RegisterRequest {
         this.password = password;
     }
 
-    public String getFirstName() {
-        return firstName;
+    public String getPhoneNumber() {
+        return phoneNumber;
     }
 
-    public void setFirstName(String firstName) {
-        this.firstName = firstName;
+    public void setPhoneNumber(String phoneNumber) {
+        this.phoneNumber = phoneNumber;
     }
-
-    public String getLastName() {
-        return lastName;
-    }
-
-    public void setLastName(String lastName) {
-        this.lastName = lastName;
-    }
-
 
     public MultipartFile getImageFile() {
         return imageFile;
@@ -92,13 +109,5 @@ public class RegisterRequest {
 
     public void setImageFile(MultipartFile imageFile) {
         this.imageFile = imageFile;
-    }
-
-    public String getPhoneNumber() {
-        return phoneNumber;
-    }
-
-    public void setPhoneNumber(String phoneNumber) {
-        this.phoneNumber = phoneNumber;
     }
 }

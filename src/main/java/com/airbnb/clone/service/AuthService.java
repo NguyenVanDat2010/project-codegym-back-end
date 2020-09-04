@@ -1,9 +1,6 @@
 package com.airbnb.clone.service;
 
-import com.airbnb.clone.dto.AuthenticationResponse;
-import com.airbnb.clone.dto.LoginRequest;
-import com.airbnb.clone.dto.RefreshTokenRequest;
-import com.airbnb.clone.dto.RegisterRequest;
+import com.airbnb.clone.dto.*;
 import com.airbnb.clone.exception.AppException;
 import com.airbnb.clone.model.AppUser;
 import com.airbnb.clone.model.NotificationEmail;
@@ -11,8 +8,10 @@ import com.airbnb.clone.model.VerificationToken;
 import com.airbnb.clone.repository.AppUserRepository;
 import com.airbnb.clone.repository.VerificationRepository;
 import com.airbnb.clone.security.JwtProvider;
+import com.airbnb.clone.validate.UniqueEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +21,11 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.multipart.MultipartFile;
 
+import java.io.File;
+import java.io.IOException;
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,6 +48,8 @@ public class AuthService {
     private RefreshTokenService refreshTokenService;
     @Value("${backend.api}")
     private String BACKEND_API;
+    @Autowired
+    private Environment environment;
 
     @Transactional
     public void signup(RegisterRequest registerRequest) {
@@ -64,6 +69,38 @@ public class AuthService {
         mailService.sendConfirmSignupMail(new NotificationEmail("Please Activate your account",
                 appUser.getEmail(), "Thank you for signing up, please click on the below url to " +
                 "active your account : " + BACKEND_API + "api/auth/accountVerification/" + token));
+    }
+
+    public void updateUser(UpdateUserRequest updateUserRequest){
+        AppUser user = new AppUser();
+        if (updateUserRequest.getId() != null){
+            user.setUserId(updateUserRequest.getId());
+        }
+        if (updateUserRequest.getImageFile() != null){
+            user.setImage(getFileNameAndCopyFileUpload(updateUserRequest));
+        }
+        user.setFirstName(updateUserRequest.getFirstName());
+        user.setLastName(updateUserRequest.getLastName());
+        user.setUsername(updateUserRequest.getUsername());
+        user.setEmail(updateUserRequest.getEmail());
+        user.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
+        user.setPhoneNumber(updateUserRequest.getPhoneNumber());
+        user.setCreated(Instant.now());
+        user.setEnabled(false);
+        appUserRepository.save(user);
+    }
+
+
+    private String getFileNameAndCopyFileUpload(UpdateUserRequest updateUserRequest){
+        MultipartFile file = updateUserRequest.getImageFile();
+        String fileName = file.getOriginalFilename();
+        String fileUpload = environment.getProperty("upload.user").toString();
+        try {
+            FileCopyUtils.copy(file.getBytes(), new File(fileUpload + fileName));
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+        return fileName;
     }
 
     private String generateVerificationToken(AppUser appUser) {
