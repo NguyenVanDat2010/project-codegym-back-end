@@ -1,7 +1,7 @@
 package com.airbnb.clone.exception;
 
-public class HouseNotFoundException extends RuntimeException{
-    public HouseNotFoundException(String s) {
-        super(s);
+public class HouseNotFoundException extends RuntimeException {
+    public HouseNotFoundException(String message){
+        super(message);
     }
 }

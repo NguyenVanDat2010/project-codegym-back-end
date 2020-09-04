@@ -13,7 +13,6 @@ public class House {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     @NotEmpty(message = "Name is required")
     private String name;
@@ -25,6 +24,7 @@ public class House {
 
     @Column(nullable = false)
     @NotEmpty(message = "Description is required")
+    @Lob
     private String description;
 
     @Column(nullable = false)
