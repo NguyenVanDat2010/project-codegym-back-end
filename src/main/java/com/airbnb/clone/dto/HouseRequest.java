@@ -1,8 +1,8 @@
 package com.airbnb.clone.dto;
 
 public class HouseRequest {
-    private Long houseId;
-    private String houseName;
+    private Long id;
+    private String name;
     private String address;
     private String houseCategory;
     private String cityName;
@@ -12,31 +12,16 @@ public class HouseRequest {
     public HouseRequest() {
     }
 
-    public HouseRequest(Long houseId, String houseName, String houseCategory, String username,
+    public HouseRequest(Long id, String name, String houseCategory, String username,
                         String address, String cityName, String description, Integer price) {
-        this.houseId = houseId;
-        this.houseName = houseName;
+        this.id = id;
+        this.name = name;
+
         this.houseCategory = houseCategory;
         this.address = address;
         this.cityName = cityName;
         this.description = description;
         this.price = price;
-    }
-
-    public Long getHouseId() {
-        return houseId;
-    }
-
-    public void setHouseId(Long houseId) {
-        this.houseId = houseId;
-    }
-
-    public String getHouseName() {
-        return houseName;
-    }
-
-    public void setHouseName(String houseName) {
-        this.houseName = houseName;
     }
 
     public String getHouseCategory() {
@@ -46,8 +31,6 @@ public class HouseRequest {
     public void setHouseCategory(String houseCategory) {
         this.houseCategory = houseCategory;
     }
-
-
 
     public String getCityName() {
         return cityName;
@@ -65,8 +48,6 @@ public class HouseRequest {
         this.description = description;
     }
 
-
-
     public String getAddress() {
         return address;
     }
@@ -81,5 +62,22 @@ public class HouseRequest {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
     }
 }

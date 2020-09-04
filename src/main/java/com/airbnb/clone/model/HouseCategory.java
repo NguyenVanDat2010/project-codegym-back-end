@@ -4,12 +4,14 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
 import javax.validation.constraints.NotEmpty;
+
 @Entity
 @Table(name = "house_category")
 public class HouseCategory {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     @NotEmpty(message = "Category is required")
     private String name;

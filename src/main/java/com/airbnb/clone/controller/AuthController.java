@@ -26,6 +26,7 @@ public class AuthController {
    @Autowired
    private AppUserService userService;
 
+   @Validated
    @PostMapping("/signup")
     public ResponseEntity<String> signup(@Valid @RequestBody RegisterRequest registerRequest, BindingResult result) {
       if (registerRequest == null || result.hasErrors()){
@@ -71,4 +72,6 @@ public class AuthController {
       refreshTokenService.deleteRefreshToken(refreshTokenRequest.getRefreshToken());
       return ResponseEntity.status(HttpStatus.OK).body("Refresh token delete successfully");
    }
+
+
 }

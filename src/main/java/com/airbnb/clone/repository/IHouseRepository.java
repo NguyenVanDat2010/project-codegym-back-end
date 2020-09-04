@@ -10,5 +10,5 @@ import java.util.Optional;
 
 public interface IHouseRepository extends JpaRepository<House, Long> {
     List<House> findAllByHouseCategory (HouseCategory houseCategory);
-    List<House> findByAppUser(AppUser appUser);
+    List<House> findAllByAppUser(AppUser appUser);
 }

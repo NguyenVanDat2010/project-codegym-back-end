@@ -52,7 +52,6 @@ public class HouseService {
                 houseCategory,
                 currentUser));
         return houseMapper.mapToDto(house);
-
     }
 
     public HouseResponse getHouse(Long id){
@@ -75,9 +74,9 @@ public class HouseService {
         return houses.stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
     }
 
-    public List<HouseResponse> getAllHouseByUsername(String username){
+    public List<HouseResponse> getAllHousesByUsername(String username){
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppUserNotFoundException(username));
-        return houseRepository.findByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
+        return houseRepository.findAllByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
     }
 }
