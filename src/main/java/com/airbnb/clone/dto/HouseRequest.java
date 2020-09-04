@@ -1,7 +1,7 @@
 package com.airbnb.clone.dto;
 
 public class HouseRequest {
-    private Long houseId;
+    private Long id;
     private String houseName;
     private String address;
     private String houseCategory;
@@ -12,9 +12,9 @@ public class HouseRequest {
     public HouseRequest() {
     }
 
-    public HouseRequest(Long houseId, String houseName, String houseCategory, String username,
+    public HouseRequest(Long id, String houseName, String houseCategory, String username,
                         String address, String cityName, String description, Integer price) {
-        this.houseId = houseId;
+        this.id = id;
         this.houseName = houseName;
         this.houseCategory = houseCategory;
         this.address = address;
@@ -23,23 +23,7 @@ public class HouseRequest {
         this.price = price;
     }
 
-    public Long getHouseId() {
-        return houseId;
-    }
-
-    public void setHouseId(Long houseId) {
-        this.houseId = houseId;
-    }
-
-    public String getHouseName() {
-        return houseName;
-    }
-
-    public void setHouseName(String houseName) {
-        this.houseName = houseName;
-    }
-
-    public String getHouseCategory() {
+   public String getHouseCategory() {
         return houseCategory;
     }
 
@@ -81,5 +65,21 @@ public class HouseRequest {
 
     public void setPrice(Integer price) {
         this.price = price;
+    }
+
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getHouseName() {
+        return houseName;
+    }
+
+    public void setHouseName(String houseName) {
+        this.houseName = houseName;
     }
 }
