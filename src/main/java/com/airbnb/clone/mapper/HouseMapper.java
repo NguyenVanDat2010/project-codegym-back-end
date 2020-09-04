@@ -14,8 +14,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
 public abstract class HouseMapper {
-    @Mapping(target = "id", source = "houseRequest.houseId")
-    @Mapping(target = "name", source = "houseRequest.houseName")
+    @Mapping(target = "id", source = "houseRequest.id")
+    @Mapping(target = "name", source = "houseRequest.name")
     @Mapping(target = "address", source = "houseRequest.address")
     @Mapping(target = "appUser", source = "appUser")
     @Mapping(target = "description", source = "houseRequest.description")

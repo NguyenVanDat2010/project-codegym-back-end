@@ -28,9 +28,8 @@ public class HouseController {
 
 
     @PostMapping
-    public ResponseEntity<Void> createHouse(@RequestBody HouseRequest houseRequest){
-        houseService.saveHouse(houseRequest);
-        return new ResponseEntity<>(HttpStatus.CREATED);
+    public ResponseEntity<HouseResponse> createHouse(@RequestBody HouseRequest houseRequest){
+        return new ResponseEntity<>(houseService.saveHouse(houseRequest), HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

@@ -52,7 +52,6 @@ public class HouseService {
                 houseCategory,
                 currentUser));
         return houseMapper.mapToDto(house);
-
     }
 
     public HouseResponse getHouse(Long id){

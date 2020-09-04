@@ -21,12 +21,12 @@ public class ReservationController {
     @Autowired
     private AppUserService userService;
 
-    @GetMapping("/byUsername/{username}")
+    @GetMapping("/by-username/{username}")
     public ResponseEntity<List<ReservationDto>>getAllReservationsByUser(@PathVariable String username){
         return new ResponseEntity<>(reservationService.getAllReservationsByUser(username), HttpStatus.OK);
     }
 
-    @GetMapping("/byHouse/{houseId}")
+    @GetMapping("/by-house/{houseId}")
     public ResponseEntity<Iterable<ReservationDto>>getAllReservationsByHouse(@PathVariable Long houseId) {
         return new ResponseEntity<>(reservationService.getAllReservationsByHouse(houseId), HttpStatus.OK);
     }
