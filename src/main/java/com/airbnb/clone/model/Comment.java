@@ -23,6 +23,8 @@ public class Comment {
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private AppUser appUser;
 
+    private Integer votes;
+
     public Comment() {
     }
 
@@ -64,5 +66,13 @@ public class Comment {
 
     public void setAppUser(AppUser appUser) {
         this.appUser = appUser;
+    }
+
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Integer votes) {
+        this.votes = votes;
     }
 }

@@ -10,16 +10,18 @@ public class CommentDto {
     private Instant startDate;
     private String text;
     private String username;
+    private Integer votes;
 
     public CommentDto() {
     }
 
-    public CommentDto(Long id, Long houseId, Instant startDate, String text, String username) {
+    public CommentDto(Long id, Long houseId, Instant startDate, String text, String username,Integer votes) {
         this.id = id;
         this.houseId = houseId;
         this.startDate = startDate;
         this.text = text;
         this.username = username;
+        this.votes =votes;
     }
 
     public Long getId() {
@@ -60,5 +62,13 @@ public class CommentDto {
 
     public void setUsername(String username) {
         this.username = username;
+    }
+
+    public Integer getVotes() {
+        return votes;
+    }
+
+    public void setVotes(Integer votes) {
+        this.votes = votes;
     }
 }

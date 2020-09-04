@@ -11,6 +11,7 @@ import org.mapstruct.Mapping;
 public interface CommentMapper {
     @Mapping(target = "id",ignore = true)
     @Mapping(target = "text", source = "commentDto.text")
+    @Mapping(target = "votes", source = "commentDto.votes")
     @Mapping(target = "house", source = "house")
     @Mapping(target = "createdDate",expression ="java(java.time.Instant.now())")
     @Mapping(target = "appUser",source = "appUser")
