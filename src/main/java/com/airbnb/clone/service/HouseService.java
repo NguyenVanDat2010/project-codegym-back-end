@@ -78,6 +78,6 @@ public class HouseService {
     public List<HouseResponse> getAllHouseByUsername(String username){
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppUserNotFoundException(username));
-        return houseRepository.findByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
+        return houseRepository.findALLByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
     }
 }

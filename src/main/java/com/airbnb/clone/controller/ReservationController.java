@@ -24,16 +24,19 @@ public class ReservationController {
     @Autowired
     private AppUserService userService;
 
+    /**Là khách hàng kiểm tra mình dang thuê những nhà nào*/
     @GetMapping("/byUsername/{username}")
     public ResponseEntity<List<ReservationDto>>getAllReservationsByUser(@PathVariable String username){
         return new ResponseEntity<>(reservationService.getAllReservationsByUser(username), HttpStatus.OK);
     }
 
+    /**Là chủ nhà, lấy ra những khách hàng đang thuê nhà của mình*/
     @GetMapping("/byHouse/{houseId}")
     public ResponseEntity<Iterable<ReservationDto>>getAllReservationsByHouse(@PathVariable Long houseId) {
         return new ResponseEntity<>(reservationService.getAllReservationsByHouse(houseId), HttpStatus.OK);
     }
 
+    /**Đặt nhà*/
     @PostMapping
     public ResponseEntity<?> reservationHouseByCurrentUser(@RequestBody ReservationDto reservationDto, BindingResult result){
         if (result.hasErrors()){
@@ -55,6 +58,7 @@ public class ReservationController {
         return new ResponseEntity<>(reservationDto,HttpStatus.OK);
     }
 
+    /**Update nhà đã đặt*/
     @PutMapping
     public ResponseEntity<?> updateReservationByIdAndCurrentUser(@RequestBody ReservationDto reservationDto, BindingResult result){
         if (result.hasErrors()){

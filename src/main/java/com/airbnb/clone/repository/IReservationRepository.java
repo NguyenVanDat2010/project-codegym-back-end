@@ -13,10 +13,17 @@ import java.sql.Timestamp;
 import java.util.List;
 
 public interface IReservationRepository extends JpaRepository<Reservation, Long> {
+    /**Là khách hàng kiểm tra mình dang thuê những nhà nào*/
     List<Reservation> findAllByUser(AppUser user);
 
+    /**Là chủ nhà, lấy ra những khách hàng đang thuê nhà của mình*/
     List<Reservation> findAllByHouse(House house);
 
+    void findByUser(AppUser user);
+
+    void findByHouse(House house);
+
+    /**Đặt nhà*/
     @Modifying
     @Query(value = "SELECT * FROM reservation WHERE house_id= :houseId " +
             "and ((start_date between :startDate and :endDate )" +
@@ -25,6 +32,7 @@ public interface IReservationRepository extends JpaRepository<Reservation, Long>
             "or (start_date >= :startDate and end_date <= :endDate ))", nativeQuery = true)
     List<Reservation> getAllByHouseIdAndStartDateAndEndDate(@Param("houseId")Long house_id ,@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate);
 
+    /**Update nhà đã đặt*/
     @Modifying
     @Query(value = "SELECT * FROM reservation WHERE id != :reservationId and house_id= :houseId " +
             "and ((start_date between :startDate and :endDate )" +
@@ -33,5 +41,8 @@ public interface IReservationRepository extends JpaRepository<Reservation, Long>
             "or (start_date >= :startDate and end_date <= :endDate ))", nativeQuery = true)
     List<Reservation> getAllByHouseIdAndStartDateAndEndDateToUpdate(@Param("reservationId")Long reservationId, @Param("houseId")Long house_id ,@Param("startDate") Timestamp startDate, @Param("endDate") Timestamp endDate);
 
+//    @Modifying
+//    @Query(value = "select * from reservation where user_id = :userId", nativeQuery = true)
+//    List<Reservation> getAllByUserOwnedHouse(@Param("userId")Long userId);
 }
 

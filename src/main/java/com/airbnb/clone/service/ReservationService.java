@@ -46,6 +46,7 @@ public class ReservationService {
         reservationRepository.deleteById(id);
     }
 
+    /**Là khách hàng kiểm tra mình dang thuê những nhà nào*/
     public List<ReservationDto> getAllReservationsByUser(String username) {
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppUserNotFoundException(username.toString()));
@@ -53,6 +54,7 @@ public class ReservationService {
         return reservations.stream().map(reservationMapper::mapToDo).collect(toList());
     }
 
+    /**Là chủ nhà, lấy ra những khách hàng đang thuê nhà của mình*/
     public List<ReservationDto> getAllReservationsByHouse(Long houseId) {
         House house = houseRepository.findById(houseId)
                 .orElseThrow(() -> new HouseNotFoundException(houseId.toString()));
@@ -60,6 +62,7 @@ public class ReservationService {
         return reservations.stream().map(reservationMapper::mapToDo).collect(toList());
     }
 
+    /**Đặt nhà*/
     public ReservationDto saveReservation(ReservationDto reservationDto){
         List<Reservation> reservations = reservationRepository.getAllByHouseIdAndStartDateAndEndDate(reservationDto.getHouseId(),reservationDto.getStartDate(), reservationDto.getEndDate());
         if (reservations.size() == 0){
@@ -72,6 +75,7 @@ public class ReservationService {
         return null;
     }
 
+    /**Update nhà đã đặt*/
     public ReservationDto updateReservation(ReservationDto reservationDto){
         List<Reservation> reservations = reservationRepository.getAllByHouseIdAndStartDateAndEndDateToUpdate(reservationDto.getId(),reservationDto.getHouseId(),reservationDto.getStartDate(), reservationDto.getEndDate());
         if (reservations.size() == 0){
@@ -83,4 +87,14 @@ public class ReservationService {
         }
         return null;
     }
+
+//    public List<ReservationDto> reservationDtos(Long userId){
+//        Optional<AppUser> user = userRepository.findById(userId);
+//        House house = houseRepository.findByAppUser(user.get());
+//        List<Reservation> reservations = reservationRepository.findAllByHouse(house);
+//        if (reservations.size()==0){
+//            return null;
+//        }
+//        return
+//    }
 }

@@ -37,7 +37,6 @@ public class HouseController {
     @GetMapping
     public ResponseEntity<List<HouseResponse>> getAllHouses(){
         return new ResponseEntity<>(houseService.getAllHouses(),HttpStatus.OK);
-
     }
 
     @GetMapping("/by-houseCategory/{id}")
