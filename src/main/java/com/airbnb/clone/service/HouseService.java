@@ -1,23 +1,19 @@
 package com.airbnb.clone.service;
 
+import com.airbnb.clone.controller.ReservationController;
 import com.airbnb.clone.dto.HouseRequest;
 import com.airbnb.clone.dto.HouseResponse;
 import com.airbnb.clone.exception.*;
 import com.airbnb.clone.mapper.HouseMapper;
-import com.airbnb.clone.model.AppUser;
-import com.airbnb.clone.model.City;
-import com.airbnb.clone.model.House;
-import com.airbnb.clone.model.HouseCategory;
-import com.airbnb.clone.repository.AppUserRepository;
-import com.airbnb.clone.repository.ICityRepository;
-import com.airbnb.clone.repository.IHouseCategoryRepository;
-import com.airbnb.clone.repository.IHouseRepository;
+import com.airbnb.clone.model.*;
+import com.airbnb.clone.repository.*;
 import lombok.extern.slf4j.Slf4j;
 import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -42,6 +38,12 @@ public class HouseService {
     @Autowired
     private HouseMapper houseMapper;
 
+    @Autowired
+    private IReservationRepository reservationRepository;
+
+    @Autowired
+    private ImageRepository imageRepository;
+
     public HouseResponse saveHouse(HouseRequest houseRequest){
         HouseCategory houseCategory =houseCategoryRepository.findByName(houseRequest.getHouseCategory())
                 .orElseThrow(() -> new HouseCategoryNotFoundException(houseRequest.getHouseCategory()));
@@ -52,7 +54,6 @@ public class HouseService {
                 houseCategory,
                 currentUser));
         return houseMapper.mapToDto(house);
-
     }
 
     public HouseResponse getHouse(Long id){
@@ -75,9 +76,24 @@ public class HouseService {
         return houses.stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
     }
 
-    public List<HouseResponse> getAllHouseByUsername(String username){
+    public List<HouseResponse> getAllHousesByUsername(String username){
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppUserNotFoundException(username));
         return houseRepository.findALLByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
+    }
+
+    public void deleteById(Long id){
+        Optional<House> house = houseRepository.findById(id);
+        if (house.isPresent()) {
+            List<Reservation> reservations = reservationRepository.findAllByHouse(house.get());
+            for (Reservation reservation : reservations) {
+                reservationRepository.deleteById(reservation.getId());
+            }
+            List<ImageModel> imageModels = imageRepository.findAllByHouse(house.get());
+            for (ImageModel imageModel : imageModels) {
+                imageRepository.deleteById(imageModel.getId());
+            }
+            houseRepository.deleteById(id);
+        }
     }
 }

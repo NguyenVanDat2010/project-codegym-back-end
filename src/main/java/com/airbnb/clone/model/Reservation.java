@@ -3,8 +3,6 @@ package com.airbnb.clone.model;
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
-import java.sql.Date;
 import java.sql.Timestamp;
 
 @Entity

@@ -69,7 +69,10 @@ public class ReservationService {
             House house = houseRepository.findById(reservationDto.getHouseId())
                     .orElseThrow(() -> new HouseNotFoundException(reservationDto.getId().toString()));
             AppUser currentUser = authService.getCurrentUser();
-            reservationRepository.save(reservationMapper.map(reservationDto, house, currentUser));
+            if (house.getAppUser().getUserId().equals(currentUser.getUserId())){
+                return null;
+            }
+                reservationRepository.save(reservationMapper.map(reservationDto, house, currentUser));
             return reservationDto;
         }
         return null;
@@ -87,14 +90,4 @@ public class ReservationService {
         }
         return null;
     }
-
-//    public List<ReservationDto> reservationDtos(Long userId){
-//        Optional<AppUser> user = userRepository.findById(userId);
-//        House house = houseRepository.findByAppUser(user.get());
-//        List<Reservation> reservations = reservationRepository.findAllByHouse(house);
-//        if (reservations.size()==0){
-//            return null;
-//        }
-//        return
-//    }
 }

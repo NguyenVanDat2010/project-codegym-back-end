@@ -16,13 +16,7 @@ public class ImageModel {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
 
-    private String name;
-
-    private String type;
-
-    @Column(name = "picByte", length = 1000)
-    @Lob
-    private byte[] picByte;
+    private String ref;
 
     @ManyToOne(fetch = LAZY)
     @JoinColumn(name = "house_id", referencedColumnName = "id")
@@ -39,27 +33,19 @@ public class ImageModel {
         this.id = id;
     }
 
-    public String getName() {
-        return name;
+    public String getRef() {
+        return ref;
     }
 
-    public void setName(String name) {
-        this.name = name;
+    public void setRef(String ref) {
+        this.ref = ref;
     }
 
-    public String getType() {
-        return type;
+    public House getHouse() {
+        return house;
     }
 
-    public void setType(String type) {
-        this.type = type;
-    }
-
-    public byte[] getPicByte() {
-        return picByte;
-    }
-
-    public void setPicByte(byte[] picByte) {
-        this.picByte = picByte;
+    public void setHouse(House house) {
+        this.house = house;
     }
 }

@@ -2,8 +2,7 @@ package com.airbnb.clone.controller;
 
 import com.airbnb.clone.dto.MessageResponse;
 import com.airbnb.clone.dto.ReservationDto;
-import com.airbnb.clone.model.AppUser;
-import com.airbnb.clone.model.Reservation;
+import com.airbnb.clone.dto.ResponseMessage;
 import com.airbnb.clone.service.AppUserService;
 import com.airbnb.clone.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -13,7 +12,6 @@ import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
-import java.util.Optional;
 
 @RestController
 @RequestMapping("/api/reservations")
@@ -25,28 +23,27 @@ public class ReservationController {
     private AppUserService userService;
 
     /**Là khách hàng kiểm tra mình dang thuê những nhà nào*/
-    @GetMapping("/byUsername/{username}")
+    @GetMapping("/by-username/{username}")
     public ResponseEntity<List<ReservationDto>>getAllReservationsByUser(@PathVariable String username){
         return new ResponseEntity<>(reservationService.getAllReservationsByUser(username), HttpStatus.OK);
     }
-
     /**Là chủ nhà, lấy ra những khách hàng đang thuê nhà của mình*/
-    @GetMapping("/byHouse/{houseId}")
+    @GetMapping("/by-house/{houseId}")
     public ResponseEntity<Iterable<ReservationDto>>getAllReservationsByHouse(@PathVariable Long houseId) {
         return new ResponseEntity<>(reservationService.getAllReservationsByHouse(houseId), HttpStatus.OK);
     }
 
     /**Đặt nhà*/
     @PostMapping
-    public ResponseEntity<?> reservationHouseByCurrentUser(@RequestBody ReservationDto reservationDto, BindingResult result){
+    public ResponseEntity<ResponseMessage> reservationHouseByCurrentUser(@RequestBody ReservationDto reservationDto, BindingResult result){
         if (result.hasErrors()){
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         ReservationDto reservationDto1 = reservationService.saveReservation(reservationDto);
         if (reservationDto1 == null){
-            return ResponseEntity.badRequest().body(new MessageResponse("Reservation failed!"));
+            return ResponseEntity.badRequest().body(new ResponseMessage("Reservation failed!"));
         }
-        return new ResponseEntity<>(new MessageResponse("Reservation succeed!"),HttpStatus.CREATED);
+        return new ResponseEntity<>(new ResponseMessage("Reservation successed!"),HttpStatus.CREATED);
     }
 
     @GetMapping("/{id}")

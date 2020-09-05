@@ -2,6 +2,7 @@ package com.airbnb.clone.controller;
 
 import com.airbnb.clone.dto.HouseRequest;
 import com.airbnb.clone.dto.HouseResponse;
+import com.airbnb.clone.dto.MessageResponse;
 import com.airbnb.clone.model.City;
 import com.airbnb.clone.model.HouseCategory;
 import com.airbnb.clone.service.CityService;
@@ -19,10 +20,13 @@ import java.util.List;
 public class HouseController {
     @Autowired
     private HouseService houseService;
-    @Autowired
-    private HouseCategoryService houseCategoryService;
+
     @Autowired
     private CityService cityService;
+
+    @Autowired
+    private HouseCategoryService houseCategoryService;
+
 
     @PostMapping
     public ResponseEntity<HouseResponse> createHouse(@RequestBody HouseRequest houseRequest){
@@ -39,22 +43,28 @@ public class HouseController {
         return new ResponseEntity<>(houseService.getAllHouses(),HttpStatus.OK);
     }
 
-    @GetMapping("/by-houseCategory/{id}")
-    public ResponseEntity<List<HouseResponse>> getPostsByHouseCategory(@PathVariable Long id) {
+    @GetMapping("/by-house-category/{id}")
+    public ResponseEntity<List<HouseResponse>> getHousesByHouseCategory(@PathVariable Long id) {
         return new ResponseEntity<>(houseService.getAllHousesByHouseCategory(id),HttpStatus.OK);
     }
 
     @GetMapping("/by-user/{name}")
-    public ResponseEntity<List<HouseResponse>> getPostsByAppUser(@PathVariable String name) {
-        return new ResponseEntity<>(houseService.getAllHouseByUsername(name),HttpStatus.OK);
+    public ResponseEntity<List<HouseResponse>> getHousesByAppUser(@PathVariable String name) {
+        return new ResponseEntity<>(houseService.getAllHousesByUsername(name),HttpStatus.OK);
     }
     @GetMapping("/show-all-city")
     public ResponseEntity<List<City>> getAllCities(){
         return new ResponseEntity<>(cityService.showAllCity(),HttpStatus.OK);
     }
 
-    @GetMapping("/show-all-houseCategory")
+    @GetMapping("/show-all-house-category")
     public ResponseEntity<List<HouseCategory>> getAllHousesCategory(){
         return new ResponseEntity<>(houseCategoryService.showAllHouseCategories(),HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<MessageResponse> deleteHouseById(@PathVariable Long id){
+        houseService.deleteById(id);
+        return new ResponseEntity<>(new MessageResponse("Delete succeed!"),HttpStatus.OK);
     }
 }
