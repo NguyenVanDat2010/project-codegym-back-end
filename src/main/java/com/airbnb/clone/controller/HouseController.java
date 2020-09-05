@@ -39,7 +39,7 @@ public class HouseController {
         return new ResponseEntity<>(houseService.getHouse(id), HttpStatus.OK);
     }
 
-    @GetMapping("/search")
+    @PostMapping("/search")
     public ResponseEntity<List<HouseResponse>> findHouse(SearchRequest searchRequest) {
         return new ResponseEntity<>(houseService.getAllAvailableHouse(searchRequest), HttpStatus.OK);
     }
