@@ -1,6 +1,7 @@
 package com.airbnb.clone.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
 import java.sql.Timestamp;
@@ -11,9 +12,12 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "start_date",nullable = false)
+    @Column(name = "create_at")
+    @UpdateTimestamp
+    private Timestamp createdAt;
+    @Column(name = "start_date", nullable = false)
     private Timestamp startDate;
-    @Column(name = "end_date",nullable = false)
+    @Column(name = "end_date", nullable = false)
     private Timestamp endDate;
 
     //Xác định khách hàng thuê nhà
@@ -27,6 +31,14 @@ public class Reservation {
     private House house;
 
     public Reservation() {
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Long getId() {

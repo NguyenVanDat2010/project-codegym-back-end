@@ -1,5 +1,7 @@
 package com.airbnb.clone.dto;
 
+import org.hibernate.annotations.UpdateTimestamp;
+
 import javax.persistence.Column;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
@@ -12,6 +14,7 @@ public class ReservationDto {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    private Timestamp createdAt;
     @NotEmpty(message = "Start date is required")
     private Timestamp startDate;
     @NotEmpty(message = "End date is required")
@@ -26,6 +29,14 @@ public class ReservationDto {
 
     public void setId(Long id) {
         this.id = id;
+    }
+
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
     }
 
     public Timestamp getStartDate() {

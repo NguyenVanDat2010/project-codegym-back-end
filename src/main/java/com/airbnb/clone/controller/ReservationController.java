@@ -69,8 +69,11 @@ public class ReservationController {
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> deleteReservation(@PathVariable Long id){
-        reservationService.remove(id);
-        return new ResponseEntity<>(HttpStatus.OK);
+    public ResponseEntity<MessageResponse> deleteReservation(@PathVariable Long id){
+        Boolean isDeleted = reservationService.deleteById(id);
+        if (!isDeleted){
+            return ResponseEntity.badRequest().body(new MessageResponse("Delete error for this reservation!"));
+        }
+        return new ResponseEntity<>(new MessageResponse("Delete reservation succeed!"), HttpStatus.OK);
     }
 }

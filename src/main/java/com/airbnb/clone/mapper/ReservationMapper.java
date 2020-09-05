@@ -10,6 +10,7 @@ import org.mapstruct.Mapping;
 @Mapper(componentModel ="spring")
 public abstract class ReservationMapper {
     @Mapping(target = "id", source ="reservationDto.id" )
+    @Mapping(target = "createdAt", source ="reservationDto.createdAt" )
     @Mapping(target = "startDate", source ="reservationDto.startDate" )
     @Mapping(target = "endDate", source ="reservationDto.endDate" )
     @Mapping(target = "house", source ="house" )
@@ -17,6 +18,7 @@ public abstract class ReservationMapper {
     public abstract Reservation map(ReservationDto reservationDto, House house, AppUser user);
 
     @Mapping(target = "id", source = "id")
+    @Mapping(target = "createdAt", source = "createdAt")
     @Mapping(target = "startDate", source = "startDate")
     @Mapping(target = "endDate", source = "endDate")
     @Mapping(target = "username", source = "user.username")
