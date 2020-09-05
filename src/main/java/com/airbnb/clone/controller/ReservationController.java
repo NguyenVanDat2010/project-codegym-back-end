@@ -27,7 +27,7 @@ public class ReservationController {
     }
 
     @GetMapping("/by-house/{houseId}")
-    public ResponseEntity<Iterable<ReservationDto>>getAllReservationsByHouse(@PathVariable Long houseId) {
+    public ResponseEntity<List<ReservationDto>>getAllReservationsByHouse(@PathVariable Long houseId) {
         return new ResponseEntity<>(reservationService.getAllReservationsByHouse(houseId), HttpStatus.OK);
     }
 

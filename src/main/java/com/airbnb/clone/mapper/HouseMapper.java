@@ -21,6 +21,8 @@ public abstract class HouseMapper {
     @Mapping(target = "description", source = "houseRequest.description")
     @Mapping(target = "price", source = "houseRequest.price")
     @Mapping(target = "houseCategory", source = "houseCategory")
+    @Mapping(target = "bathrooms", source = "houseRequest.bathrooms")
+    @Mapping(target = "sleepingRooms", source = "houseRequest.sleepingRooms")
     @Mapping(target = "city", source = "city")
     public abstract House map(HouseRequest houseRequest, City city, HouseCategory houseCategory, AppUser appUser) ;
 

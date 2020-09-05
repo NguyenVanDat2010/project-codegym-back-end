@@ -7,20 +7,23 @@ public class HouseRequest {
     private String houseCategory;
     private String cityName;
     private String description;
+    private Integer bathrooms;
+    private Integer sleepingRooms;
     private Integer price;
 
     public HouseRequest() {
     }
 
-    public HouseRequest(Long id, String name, String houseCategory, String username,
-                        String address, String cityName, String description, Integer price) {
+    public HouseRequest(Long id, String name, String houseCategory,
+                        String address, String cityName, String description, Integer bathrooms, Integer sleepingRooms, Integer price) {
         this.id = id;
         this.name = name;
-
         this.houseCategory = houseCategory;
         this.address = address;
         this.cityName = cityName;
         this.description = description;
+        this.bathrooms = bathrooms;
+        this.sleepingRooms = sleepingRooms;
         this.price = price;
     }
 
@@ -79,5 +82,21 @@ public class HouseRequest {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(Integer bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
+    public Integer getSleepingRooms() {
+        return sleepingRooms;
+    }
+
+    public void setSleepingRooms(Integer sleepingRooms) {
+        this.sleepingRooms = sleepingRooms;
     }
 }

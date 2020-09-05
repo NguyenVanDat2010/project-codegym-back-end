@@ -2,6 +2,7 @@ package com.airbnb.clone.controller;
 
 import com.airbnb.clone.dto.HouseRequest;
 import com.airbnb.clone.dto.HouseResponse;
+import com.airbnb.clone.dto.SearchRequest;
 import com.airbnb.clone.model.City;
 import com.airbnb.clone.model.HouseCategory;
 import com.airbnb.clone.service.CityService;
@@ -12,6 +13,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -37,6 +39,10 @@ public class HouseController {
         return new ResponseEntity<>(houseService.getHouse(id), HttpStatus.OK);
     }
 
+    @GetMapping("/search")
+    public ResponseEntity<List<HouseResponse>> findHouse(SearchRequest searchRequest) {
+        return new ResponseEntity<>(houseService.getAllAvailableHouse(searchRequest), HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity<List<HouseResponse>> getAllHouses(){
         return new ResponseEntity<>(houseService.getAllHouses(),HttpStatus.OK);

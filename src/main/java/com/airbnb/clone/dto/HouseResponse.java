@@ -8,13 +8,16 @@ public class HouseResponse {
     private String houseCategory;
     private String cityName;
     private String description;
-    private Long price;
+    private Integer bathrooms;
+    private Integer sleepingRooms;
+    private Integer price;
 
     public HouseResponse() {
     }
 
     public HouseResponse(Long id, String name, String username, String address,
-                         String houseCategory, String cityName, String description, Long price) {
+                         String houseCategory, String cityName, String description,
+                         Integer bathrooms, Integer sleepingRooms, Integer price) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -22,6 +25,8 @@ public class HouseResponse {
         this.houseCategory = houseCategory;
         this.cityName = cityName;
         this.description = description;
+        this.bathrooms = bathrooms;
+        this.sleepingRooms = sleepingRooms;
         this.price = price;
     }
 
@@ -58,11 +63,11 @@ public class HouseResponse {
         this.description = description;
     }
 
-    public Long getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(Long price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
@@ -88,5 +93,21 @@ public class HouseResponse {
 
     public void setName(String name) {
         this.name = name;
+    }
+
+    public Integer getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(Integer bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
+    public Integer getSleepingRooms() {
+        return sleepingRooms;
+    }
+
+    public void setSleepingRooms(Integer sleepingRooms) {
+        this.sleepingRooms = sleepingRooms;
     }
 }
