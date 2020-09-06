@@ -40,7 +40,7 @@ public class HouseController {
     }
 
     @PostMapping("/search")
-    public ResponseEntity<List<HouseResponse>> findHouse(SearchRequest searchRequest) {
+    public ResponseEntity<List<HouseResponse>> findHouse(@RequestBody SearchRequest searchRequest) {
         return new ResponseEntity<>(houseService.getAllAvailableHouse(searchRequest), HttpStatus.OK);
     }
     @GetMapping

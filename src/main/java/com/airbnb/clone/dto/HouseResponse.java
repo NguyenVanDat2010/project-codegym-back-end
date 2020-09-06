@@ -8,16 +8,14 @@ public class HouseResponse {
     private String houseCategory;
     private String cityName;
     private String description;
-    private Integer bathrooms;
-    private Integer sleepingRooms;
-    private Integer price;
+    private int bathrooms;
+    private int sleepingRooms;
+    private int price;
 
     public HouseResponse() {
     }
 
-    public HouseResponse(Long id, String name, String username, String address,
-                         String houseCategory, String cityName, String description,
-                         Integer bathrooms, Integer sleepingRooms, Integer price) {
+    public HouseResponse(Long id, String name, String username, String address, String houseCategory, String cityName, String description, int bathrooms, int sleepingRooms, int price) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -30,6 +28,29 @@ public class HouseResponse {
         this.price = price;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getAddress() {
         return address;
@@ -63,51 +84,27 @@ public class HouseResponse {
         this.description = description;
     }
 
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
-    public Integer getBathrooms() {
+    public int getBathrooms() {
         return bathrooms;
     }
 
-    public void setBathrooms(Integer bathrooms) {
+    public void setBathrooms(int bathrooms) {
         this.bathrooms = bathrooms;
     }
 
-    public Integer getSleepingRooms() {
+    public int getSleepingRooms() {
         return sleepingRooms;
     }
 
-    public void setSleepingRooms(Integer sleepingRooms) {
+    public void setSleepingRooms(int sleepingRooms) {
         this.sleepingRooms = sleepingRooms;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 }

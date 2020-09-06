@@ -5,23 +5,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Timestamp;
 
 public class SearchRequest {
-    Long houseCategoryId;
-    Long cityId;
-    String address;
-    String name;
-    Integer bathrooms;
-    Integer sleepingRooms;
-    Integer price;
-    Timestamp startDate;
-    Timestamp endDate;
+    private Long houseCategoryId;
+    private Long cityId;
+    private String address;
+    private String name;
+    private int bathrooms;
+    private int sleepingRooms;
+    private int price;
+    private Timestamp startDate;
+    private Timestamp endDate;
 
     public SearchRequest() {
     }
 
-    public SearchRequest(Long houseCategoryId, Long cityId, String address, String name,
-                         Integer bathrooms,
-                         Integer sleepingRooms, Integer price, Timestamp startDate,
-                         Timestamp endDate) {
+    public SearchRequest(Long houseCategoryId, Long cityId, String address, String name, int bathrooms, int sleepingRooms, int price, Timestamp startDate, Timestamp endDate) {
         this.houseCategoryId = houseCategoryId;
         this.cityId = cityId;
         this.address = address;
@@ -49,6 +46,14 @@ public class SearchRequest {
         this.cityId = cityId;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getName() {
         return name;
     }
@@ -57,20 +62,28 @@ public class SearchRequest {
         this.name = name;
     }
 
-    public Integer getBathrooms() {
+    public int getBathrooms() {
         return bathrooms;
     }
 
-    public void setBathrooms(Integer bathrooms) {
+    public void setBathrooms(int bathrooms) {
         this.bathrooms = bathrooms;
     }
 
-    public Integer getSleepingRooms() {
+    public int getSleepingRooms() {
         return sleepingRooms;
     }
 
-    public void setSleepingRooms(Integer sleepingRooms) {
+    public void setSleepingRooms(int sleepingRooms) {
         this.sleepingRooms = sleepingRooms;
+    }
+
+    public int getPrice() {
+        return price;
+    }
+
+    public void setPrice(int price) {
+        this.price = price;
     }
 
     public Timestamp getStartDate() {
@@ -87,21 +100,5 @@ public class SearchRequest {
 
     public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }
