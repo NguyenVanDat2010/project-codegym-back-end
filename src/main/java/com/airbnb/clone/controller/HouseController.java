@@ -3,6 +3,7 @@ package com.airbnb.clone.controller;
 import com.airbnb.clone.dto.HouseRequest;
 import com.airbnb.clone.dto.HouseResponse;
 import com.airbnb.clone.dto.SearchRequest;
+import com.airbnb.clone.dto.MessageResponse;
 import com.airbnb.clone.model.City;
 import com.airbnb.clone.model.HouseCategory;
 import com.airbnb.clone.service.CityService;
@@ -13,7 +14,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 @RestController
@@ -46,7 +46,6 @@ public class HouseController {
     @GetMapping
     public ResponseEntity<List<HouseResponse>> getAllHouses(){
         return new ResponseEntity<>(houseService.getAllHouses(),HttpStatus.OK);
-
     }
 
     @GetMapping("/by-house-category/{id}")
@@ -66,5 +65,11 @@ public class HouseController {
     @GetMapping("/show-all-house-category")
     public ResponseEntity<List<HouseCategory>> getAllHousesCategory(){
         return new ResponseEntity<>(houseCategoryService.showAllHouseCategories(),HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<MessageResponse> deleteHouseById(@PathVariable Long id){
+        houseService.deleteById(id);
+        return new ResponseEntity<>(new MessageResponse("Delete succeed!"),HttpStatus.OK);
     }
 }
