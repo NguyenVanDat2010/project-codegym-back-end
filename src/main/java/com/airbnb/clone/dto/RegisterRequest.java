@@ -31,8 +31,6 @@ public class RegisterRequest {
     @NotEmpty(message = "Password is required")
     private String password;
 
-    private MultipartFile imageFile;
-
     public RegisterRequest() {
     }
 
@@ -83,15 +81,6 @@ public class RegisterRequest {
 
     public void setLastName(String lastName) {
         this.lastName = lastName;
-    }
-
-
-    public MultipartFile getImageFile() {
-        return imageFile;
-    }
-
-    public void setImageFile(MultipartFile imageFile) {
-        this.imageFile = imageFile;
     }
 
     public String getPhoneNumber() {

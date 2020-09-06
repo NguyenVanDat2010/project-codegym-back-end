@@ -71,38 +71,6 @@ public class AuthService {
                 "active your account : " + BACKEND_API + "api/auth/accountVerification/" + token));
     }
 
-    public void updateUser(UpdateUserRequest updateUserRequest){
-        AppUser user = new AppUser();
-        if (updateUserRequest.getId() != null){
-            user.setUserId(updateUserRequest.getId());
-        }
-        if (updateUserRequest.getImageFile() != null){
-            user.setImage(getFileNameAndCopyFileUpload(updateUserRequest));
-        }
-        user.setFirstName(updateUserRequest.getFirstName());
-        user.setLastName(updateUserRequest.getLastName());
-        user.setUsername(updateUserRequest.getUsername());
-        user.setEmail(updateUserRequest.getEmail());
-        user.setPassword(passwordEncoder.encode(updateUserRequest.getPassword()));
-        user.setPhoneNumber(updateUserRequest.getPhoneNumber());
-        user.setCreated(Instant.now());
-        user.setEnabled(false);
-        appUserRepository.save(user);
-    }
-
-
-    private String getFileNameAndCopyFileUpload(UpdateUserRequest updateUserRequest){
-        MultipartFile file = updateUserRequest.getImageFile();
-        String fileName = file.getOriginalFilename();
-        String fileUpload = environment.getProperty("upload.user").toString();
-        try {
-            FileCopyUtils.copy(file.getBytes(), new File(fileUpload + fileName));
-        } catch (IOException e) {
-            e.printStackTrace();
-        }
-        return fileName;
-    }
-
     private String generateVerificationToken(AppUser appUser) {
         String token = UUID.randomUUID().toString();
         VerificationToken verificationToken = new VerificationToken();
