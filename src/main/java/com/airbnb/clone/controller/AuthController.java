@@ -26,7 +26,7 @@ public class AuthController {
    @Autowired
    private AppUserService userService;
 
-//   @Validated
+   @Validated
    @PostMapping("/signup")
     public ResponseEntity<?> signup(@Valid @RequestBody RegisterRequest registerRequest, BindingResult result) {
       if (registerRequest == null || result.hasErrors()){
@@ -74,5 +74,15 @@ public class AuthController {
       return ResponseEntity.status(HttpStatus.OK).body("Refresh token delete successfully");
    }
 
-
+   @PutMapping("/users/change-pass")
+   public ResponseEntity<?> changePass(@Valid @RequestBody RequestPasswordUser requestPasswordUser, BindingResult result){
+      if (requestPasswordUser == null || result.hasErrors()){
+         return ResponseEntity.badRequest().body(new MessageResponse("Change password failed!"));
+      }
+      Boolean isChangedPassword = userService.changePassword(requestPasswordUser);
+      if (isChangedPassword){
+         return new ResponseEntity<>(new MessageResponse("Change password successfully"),HttpStatus.OK);
+      }
+      return ResponseEntity.badRequest().body(new MessageResponse("Change password failed!"));
+   }
 }

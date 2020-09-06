@@ -1,8 +1,8 @@
 package com.airbnb.clone.service;
 
+import com.airbnb.clone.dto.RequestPasswordUser;
 import com.airbnb.clone.dto.UpdateUserRequest;
 import com.airbnb.clone.exception.AppUserNotFoundException;
-import com.airbnb.clone.exception.HouseCategoryNotFoundException;
 import com.airbnb.clone.mapper.UpdateUserMapper;
 import com.airbnb.clone.model.AppUser;
 import com.airbnb.clone.repository.AppUserRepository;
@@ -13,9 +13,9 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import java.time.Instant;
 import java.util.Collection;
 import java.util.List;
 import java.util.Optional;
@@ -28,6 +28,11 @@ public class AppUserService implements UserDetailsService {
 
     @Autowired
     private UpdateUserMapper updateUserMapper;
+
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+
+//    private PasswordUserMapper passwordUserMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -85,6 +90,17 @@ public class AppUserService implements UserDetailsService {
             user.setCreated(oldUser.getCreated());
             user.setEnabled(oldUser.isEnabled());
             user.setPassword(oldUser.getPassword());
+            appUserRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean changePassword(RequestPasswordUser requestPasswordUser){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        AppUser user = appUserRepository.findByUsername(requestPasswordUser.getUsername()).get();
+        if (passwordEncoder.matches(requestPasswordUser.getOldPassword(),user.getPassword())){
+            user.setPassword(passwordEncoder.encode(requestPasswordUser.getNewPassword()));
             appUserRepository.save(user);
             return true;
         }
