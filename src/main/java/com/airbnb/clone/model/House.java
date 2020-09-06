@@ -31,6 +31,10 @@ public class House {
     @Min(1)
     private int price;
 
+    private int bathrooms;
+
+    private int sleepingRooms;
+
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
     @JsonIgnore
@@ -112,5 +116,21 @@ public class House {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(int bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
+    public int getSleepingRooms() {
+        return sleepingRooms;
+    }
+
+    public void setSleepingRooms(int sleepingRooms) {
+        this.sleepingRooms = sleepingRooms;
     }
 }

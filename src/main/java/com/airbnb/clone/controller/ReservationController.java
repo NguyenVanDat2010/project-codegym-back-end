@@ -29,7 +29,7 @@ public class ReservationController {
     }
     /**Là chủ nhà, lấy ra những khách hàng đang thuê nhà của mình*/
     @GetMapping("/by-house/{houseId}")
-    public ResponseEntity<Iterable<ReservationDto>>getAllReservationsByHouse(@PathVariable Long houseId) {
+    public ResponseEntity<List<ReservationDto>>getAllReservationsByHouse(@PathVariable Long houseId) {
         return new ResponseEntity<>(reservationService.getAllReservationsByHouse(houseId), HttpStatus.OK);
     }
 

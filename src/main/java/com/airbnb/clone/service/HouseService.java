@@ -3,6 +3,7 @@ package com.airbnb.clone.service;
 import com.airbnb.clone.controller.ReservationController;
 import com.airbnb.clone.dto.HouseRequest;
 import com.airbnb.clone.dto.HouseResponse;
+import com.airbnb.clone.dto.SearchRequest;
 import com.airbnb.clone.exception.*;
 import com.airbnb.clone.mapper.HouseMapper;
 import com.airbnb.clone.model.*;
@@ -12,6 +13,7 @@ import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Timestamp;
 import java.util.List;
 import java.util.Optional;
 import java.util.stream.Collectors;
@@ -36,10 +38,10 @@ public class HouseService {
     private AuthService authService;
 
     @Autowired
-    private HouseMapper houseMapper;
+    private IReservationRepository reservationRepository;
 
     @Autowired
-    private IReservationRepository reservationRepository;
+    private HouseMapper houseMapper;
 
     @Autowired
     private ImageRepository imageRepository;
@@ -95,5 +97,24 @@ public class HouseService {
             }
             houseRepository.deleteById(id);
         }
+    }
+
+    public List<HouseResponse> getAllAvailableHouse(SearchRequest searchRequest) {
+        List<House> houses = houseRepository
+                .findAllBySearchRequest(searchRequest)
+                .stream()
+                .filter(
+                        house -> {
+                            if (searchRequest.getStartDate() != null && searchRequest.getEndDate() != null) {
+                                return reservationRepository
+                                        .getAllConflictingReservations(house.getId(), searchRequest.getStartDate(),
+                                                searchRequest.getEndDate())
+                                        .size() == 0;
+                            }
+                            return true;
+                        }
+                )
+                .collect(Collectors.toList());
+        return houses.stream().map(houseMapper::mapToDto).collect(Collectors.toList());
     }
 }
