@@ -26,6 +26,6 @@ public interface IReservationRepository extends JpaRepository<Reservation, Long>
     List<Reservation> getAllConflictingReservations(@Param("houseId")Long house_id ,
                              @Param("startDate") Timestamp startDate,
                         @Param("endDate") Timestamp endDate);
-
+    boolean existsByHouseAndUser(House house, AppUser user);
 }
 

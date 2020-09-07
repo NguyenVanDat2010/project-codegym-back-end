@@ -48,6 +48,8 @@ public class ReservationService {
         return reservations.stream().map(reservationMapper::mapToDo).collect(toList());
     }
 
+
+
     public List<ReservationDto> getAllReservationsByHouse(Long houseId) {
         House house = houseRepository.findById(houseId)
                 .orElseThrow(() -> new HouseNotFoundException(houseId.toString()));
