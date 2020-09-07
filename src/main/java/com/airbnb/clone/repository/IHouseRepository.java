@@ -29,14 +29,14 @@ public interface IHouseRepository extends JpaRepository<House, Long> {
 //            @Nullable Integer sleepingRooms
 //    );
     @Query(value = "SELECT h FROM House h " +
-            "WHERE (:#{#searchRequest.cityId} is null or h.city.id = :#{#searchRequest.cityId})" +
+            "WHERE (:#{#searchRequest.cityId} IS NULL OR h.city.id = :#{#searchRequest.cityId})" +
             "AND (:#{#searchRequest.houseCategoryId} IS NULL OR h.houseCategory.id = " +
             ":#{#searchRequest.houseCategoryId})" +
-//            "AND (:#{#searchRequest.bathrooms} IS NULL " +
-//            "OR h.bathrooms >= :#{#searchRequest.bathrooms})" +
-//             "AND (:#{#searchRequest.sleepingRooms} IS NULL OR h.sleepingRooms >= " +
-//            ":#{#searchRequest.sleepingRooms})" +
-//            "AND (:#{#searchRequest.price} IS NULL OR h.price <= :#{#searchRequest.price})" +
+            "AND (:#{#searchRequest.bathrooms} IS NULL OR h.bathrooms >= " +
+            ":#{#searchRequest.bathrooms})"
+            + "AND (:#{#searchRequest.sleepingRooms} IS NULL OR h.sleepingRooms >= " +
+            ":#{#searchRequest.sleepingRooms})" +
+            "AND (:#{#searchRequest.price} IS NULL OR h.price <= :#{#searchRequest.price})" +
             "AND (:#{#searchRequest.name} IS NULL OR h.name LIKE :#{#searchRequest.name})" +
             "AND (:#{#searchRequest.address} IS NULL OR h.address LIKE :#{#searchRequest.address})"
     )

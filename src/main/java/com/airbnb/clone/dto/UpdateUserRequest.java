@@ -23,28 +23,28 @@ public class UpdateUserRequest {
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "Email is required")
     private String email;
-    @UniqueUserName
+//    @UniqueUserName
     @NotBlank(message = "Username is required")
     @NotEmpty(message = "Username is required")
     @Column(nullable = false,unique = true)
     private String username;
-    @NotBlank(message = "Password is required")
-    @NotEmpty(message = "Password is required")
-    private String password;
-    private MultipartFile imageFile;
+//    @NotBlank(message = "Password is required")
+//    @NotEmpty(message = "Password is required")
+//    private String password;
+    private String image;
 
     public UpdateUserRequest() {
     }
 
-    public UpdateUserRequest(Long id,String firstName, String lastName, String username, String email, String password, String phoneNumber, MultipartFile imageFile) {
+    public UpdateUserRequest(Long id,String firstName, String lastName, String username, String email, String password, String phoneNumber, String image) {
         this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
         this.username = username;
         this.email = email;
-        this.password = password;
+//        this.password = password;
         this.phoneNumber = phoneNumber;
-        this.imageFile = imageFile;
+        this.image = image;
     }
 
     public Long getId() {
@@ -87,13 +87,13 @@ public class UpdateUserRequest {
         this.email = email;
     }
 
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
 
     public String getPhoneNumber() {
         return phoneNumber;
@@ -103,11 +103,11 @@ public class UpdateUserRequest {
         this.phoneNumber = phoneNumber;
     }
 
-    public MultipartFile getImageFile() {
-        return imageFile;
+    public String getImage() {
+        return image;
     }
 
-    public void setImageFile(MultipartFile imageFile) {
-        this.imageFile = imageFile;
+    public void setImage(String image) {
+        this.image = image;
     }
 }
