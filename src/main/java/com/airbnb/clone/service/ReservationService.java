@@ -115,7 +115,8 @@ public class ReservationService {
 
     /**Update nhà đã đặt*/
     public ReservationDto updateReservation(ReservationDto reservationDto){
-        List<Reservation> reservations = reservationRepository.getAllByHouseIdAndStartDateAndEndDateToUpdate(reservationDto.getId(),reservationDto.getHouseId(),reservationDto.getStartDate(), reservationDto.getEndDate());
+        List<Reservation> reservations = reservationRepository.getAllConflictingReservationsWhenEdit(reservationDto.getId(),
+                reservationDto.getHouseId(),reservationDto.getStartDate(), reservationDto.getEndDate());
         if (reservations.size() == 0){
             House house = houseRepository.findById(reservationDto.getHouseId())
                     .orElseThrow(() -> new HouseNotFoundException(reservationDto.getId().toString()));

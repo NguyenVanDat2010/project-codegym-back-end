@@ -9,16 +9,16 @@ public class SearchRequest {
     private Long cityId;
     private String address;
     private String name;
-    private int bathrooms;
-    private int sleepingRooms;
-    private int price;
+    private Integer bathrooms;
+    private Integer sleepingRooms;
+    private Integer price;
     private Timestamp startDate;
     private Timestamp endDate;
 
     public SearchRequest() {
     }
 
-    public SearchRequest(Long houseCategoryId, Long cityId, String address, String name, int bathrooms, int sleepingRooms, int price, Timestamp startDate, Timestamp endDate) {
+    public SearchRequest(Long houseCategoryId, Long cityId, String address, String name, Integer bathrooms, Integer sleepingRooms, Integer price, Timestamp startDate, Timestamp endDate) {
         this.houseCategoryId = houseCategoryId;
         this.cityId = cityId;
         this.address = address;
@@ -62,27 +62,27 @@ public class SearchRequest {
         this.name = name;
     }
 
-    public int getBathrooms() {
+    public Integer getBathrooms() {
         return bathrooms;
     }
 
-    public void setBathrooms(int bathrooms) {
+    public void setBathrooms(Integer bathrooms) {
         this.bathrooms = bathrooms;
     }
 
-    public int getSleepingRooms() {
+    public Integer getSleepingRooms() {
         return sleepingRooms;
     }
 
-    public void setSleepingRooms(int sleepingRooms) {
+    public void setSleepingRooms(Integer sleepingRooms) {
         this.sleepingRooms = sleepingRooms;
     }
 
-    public int getPrice() {
+    public Integer getPrice() {
         return price;
     }
 
-    public void setPrice(int price) {
+    public void setPrice(Integer price) {
         this.price = price;
     }
 
