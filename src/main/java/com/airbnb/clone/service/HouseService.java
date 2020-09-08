@@ -12,6 +12,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -79,6 +80,7 @@ public class HouseService {
         return houses.stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<HouseResponse> getAllHousesByUsername(String username){
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppUserNotFoundException(username));
@@ -107,6 +109,7 @@ public class HouseService {
         }
     }
 
+    @Transactional(readOnly = true)
     public List<HouseResponse> getAllAvailableHouse(SearchRequest searchRequest) {
         List<House> houses = houseRepository
                 .findAllBySearchRequest(searchRequest)
