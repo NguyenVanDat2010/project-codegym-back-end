@@ -9,6 +9,7 @@ import com.airbnb.clone.repository.IHouseRepository;
 import com.airbnb.clone.repository.ImageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -31,6 +32,7 @@ public class ImageService {
         ImageModel img = imageMapper.map(imageDto,house);
         imageRepository.save(img);
     }
+    @Transactional(readOnly = true)
     public List<ImageDto> getAllImageByHouseId(Long houseId) {
         House house =
                 houseRepository.findById(houseId).orElseThrow(() -> new HouseNotFoundException(houseId.toString()));

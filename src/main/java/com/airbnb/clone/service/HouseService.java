@@ -60,6 +60,7 @@ public class HouseService {
         return houseMapper.mapToDto(house);
     }
 
+    @Transactional(readOnly = true)
     public HouseResponse getHouse(Long id){
         House house =houseRepository.findById(id)
                 .orElseThrow(() -> new HouseNotFoundException(id.toString()));
@@ -73,6 +74,7 @@ public class HouseService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<HouseResponse> getAllHousesByHouseCategory(Long houseCategoryId ){
         HouseCategory houseCategory = houseCategoryRepository.findById(houseCategoryId)
                 .orElseThrow(() -> new HouseCategoryNotFoundException(houseCategoryId.toString()));
@@ -84,13 +86,7 @@ public class HouseService {
     public List<HouseResponse> getAllHousesByUsername(String username){
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppUserNotFoundException(username));
-        System.out.println(user.getUserId());
-        System.out.println(user.getUsername());
-        System.out.println(user.getPassword());
-        System.out.println(user.getPhoneNumber());
-        for (House house : houseRepository.findAllByAppUser(user)) {
-            System.out.println(house.getId());
-        }
+
         return houseRepository.findAllByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
     }
 
