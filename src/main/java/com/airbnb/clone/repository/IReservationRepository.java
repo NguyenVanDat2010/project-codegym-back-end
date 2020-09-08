@@ -46,5 +46,7 @@ public interface IReservationRepository extends JpaRepository<Reservation, Long>
 //    @Modifying
 //    @Query(value = "select * from reservation where user_id = :userId", nativeQuery = true)
 //    List<Reservation> getAllByUserOwnedHouse(@Param("userId")Long userId);
+
+    boolean existsByHouseAndUser(House house, AppUser user);
 }
 

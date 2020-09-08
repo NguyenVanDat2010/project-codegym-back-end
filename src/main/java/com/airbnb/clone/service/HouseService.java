@@ -67,6 +67,7 @@ public class HouseService {
         return houseMapper.mapToDto(house);
     }
 
+
     public List<HouseResponse> getAllHouses(){
         return houseRepository.findAll()
                 .stream()
