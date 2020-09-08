@@ -6,7 +6,7 @@ public class HouseResponse {
     private String username;
     private String address;
     private String houseCategory;
-    private String cityName;
+    private String city;
     private String description;
     private Integer bathrooms;
     private Integer sleepingRooms;
@@ -15,13 +15,13 @@ public class HouseResponse {
     public HouseResponse() {
     }
 
-    public HouseResponse(Long id, String name, String username, String address, String houseCategory, String cityName, String description, Integer bathrooms, Integer sleepingRooms, Integer price) {
+    public HouseResponse(Long id, String name, String username, String address, String houseCategory, String city, String description, Integer bathrooms, Integer sleepingRooms, Integer price) {
         this.id = id;
         this.name = name;
         this.username = username;
         this.address = address;
         this.houseCategory = houseCategory;
-        this.cityName = cityName;
+        this.city = city;
         this.description = description;
         this.bathrooms = bathrooms;
         this.sleepingRooms = sleepingRooms;
@@ -68,12 +68,12 @@ public class HouseResponse {
         this.houseCategory = houseCategory;
     }
 
-    public String getCityName() {
-        return cityName;
+    public String getCity() {
+        return city;
     }
 
-    public void setCityName(String cityName) {
-        this.cityName = cityName;
+    public void setCity(String city) {
+        this.city = city;
     }
 
     public String getDescription() {

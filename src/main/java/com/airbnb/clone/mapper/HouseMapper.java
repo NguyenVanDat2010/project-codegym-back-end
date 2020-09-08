@@ -28,7 +28,7 @@ public abstract class HouseMapper {
 
     @Mapping(target = "username", source = "appUser.username")
     @Mapping(target = "houseCategory", source = "houseCategory.name")
-    @Mapping(target = "cityName", source = "city.name")
+    @Mapping(target = "city", source = "city.name")
     public abstract HouseResponse mapToDto(House house);
 
 }
