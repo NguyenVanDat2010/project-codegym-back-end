@@ -86,6 +86,9 @@ public class HouseService {
         System.out.println(user.getUsername());
         System.out.println(user.getPassword());
         System.out.println(user.getPhoneNumber());
+        for (House house : houseRepository.findAllByAppUser(user)) {
+            System.out.println(house.getId());
+        }
         return houseRepository.findAllByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
     }
 
