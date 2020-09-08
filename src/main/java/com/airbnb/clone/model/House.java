@@ -29,11 +29,11 @@ public class House {
 
     @Column(nullable = false)
     @Min(1)
-    private int price;
+    private Integer price;
 
-    private int bathrooms;
+    private Integer bathrooms = 0;
 
-    private int sleepingRooms;
+    private Integer sleepingRooms = 0;
 
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)

@@ -15,9 +15,7 @@ public class HouseResponse {
     public HouseResponse() {
     }
 
-    public HouseResponse(Long id, String name, String username, String address,
-                         String houseCategory, String cityName, String description,
-                         Integer bathrooms, Integer sleepingRooms, Integer price) {
+    public HouseResponse(Long id, String name, String username, String address, String houseCategory, String cityName, String description, Integer bathrooms, Integer sleepingRooms, Integer price) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -30,6 +28,29 @@ public class HouseResponse {
         this.price = price;
     }
 
+    public Long getId() {
+        return id;
+    }
+
+    public void setId(Long id) {
+        this.id = id;
+    }
+
+    public String getName() {
+        return name;
+    }
+
+    public void setName(String name) {
+        this.name = name;
+    }
+
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
 
     public String getAddress() {
         return address;
@@ -63,38 +84,6 @@ public class HouseResponse {
         this.description = description;
     }
 
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getUsername() {
-        return username;
-    }
-
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public Long getId() {
-        return id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getName() {
-        return name;
-    }
-
-    public void setName(String name) {
-        this.name = name;
-    }
-
     public Integer getBathrooms() {
         return bathrooms;
     }
@@ -109,5 +98,13 @@ public class HouseResponse {
 
     public void setSleepingRooms(Integer sleepingRooms) {
         this.sleepingRooms = sleepingRooms;
+    }
+
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
     }
 }

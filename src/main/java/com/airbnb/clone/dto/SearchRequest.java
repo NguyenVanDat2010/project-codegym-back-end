@@ -5,23 +5,20 @@ import org.springframework.web.bind.annotation.RequestParam;
 import java.sql.Timestamp;
 
 public class SearchRequest {
-    Long houseCategoryId;
-    Long cityId;
-    String address;
-    String name;
-    Integer bathrooms;
-    Integer sleepingRooms;
-    Integer price;
-    Timestamp startDate;
-    Timestamp endDate;
+    private Long houseCategoryId;
+    private Long cityId;
+    private String address;
+    private String name;
+    private Integer bathrooms;
+    private Integer sleepingRooms;
+    private Integer price;
+    private Timestamp startDate;
+    private Timestamp endDate;
 
     public SearchRequest() {
     }
 
-    public SearchRequest(Long houseCategoryId, Long cityId, String address, String name,
-                         Integer bathrooms,
-                         Integer sleepingRooms, Integer price, Timestamp startDate,
-                         Timestamp endDate) {
+    public SearchRequest(Long houseCategoryId, Long cityId, String address, String name, Integer bathrooms, Integer sleepingRooms, Integer price, Timestamp startDate, Timestamp endDate) {
         this.houseCategoryId = houseCategoryId;
         this.cityId = cityId;
         this.address = address;
@@ -49,6 +46,14 @@ public class SearchRequest {
         this.cityId = cityId;
     }
 
+    public String getAddress() {
+        return address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
     public String getName() {
         return name;
     }
@@ -73,6 +78,14 @@ public class SearchRequest {
         this.sleepingRooms = sleepingRooms;
     }
 
+    public Integer getPrice() {
+        return price;
+    }
+
+    public void setPrice(Integer price) {
+        this.price = price;
+    }
+
     public Timestamp getStartDate() {
         return startDate;
     }
@@ -87,21 +100,5 @@ public class SearchRequest {
 
     public void setEndDate(Timestamp endDate) {
         this.endDate = endDate;
-    }
-
-    public Integer getPrice() {
-        return price;
-    }
-
-    public void setPrice(Integer price) {
-        this.price = price;
-    }
-
-    public String getAddress() {
-        return address;
-    }
-
-    public void setAddress(String address) {
-        this.address = address;
     }
 }

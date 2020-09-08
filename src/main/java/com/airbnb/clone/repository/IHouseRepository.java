@@ -32,12 +32,17 @@ public interface IHouseRepository extends JpaRepository<House, Long> {
             "WHERE (:#{#searchRequest.cityId} IS NULL OR h.city.id = :#{#searchRequest.cityId})" +
             "AND (:#{#searchRequest.houseCategoryId} IS NULL OR h.houseCategory.id = " +
             ":#{#searchRequest.houseCategoryId})" +
-            "AND (:#{searchRequest.bathrooms} IS NULL OR h.bathrooms >= :#{#searchRequest.bathrooms})"
-            + "AND (:#{searchRequest.sleepingRooms} IS NULL OR h.sleepingRooms >= " +
+            "AND (:#{#searchRequest.bathrooms} IS NULL OR h.bathrooms >= " +
+            ":#{#searchRequest.bathrooms})"
+            + "AND (:#{#searchRequest.sleepingRooms} IS NULL OR h.sleepingRooms >= " +
             ":#{#searchRequest.sleepingRooms})" +
             "AND (:#{#searchRequest.price} IS NULL OR h.price <= :#{#searchRequest.price})" +
             "AND (:#{#searchRequest.name} IS NULL OR h.name LIKE :#{#searchRequest.name})" +
             "AND (:#{#searchRequest.address} IS NULL OR h.address LIKE :#{#searchRequest.address})"
     )
-    List<House> findAllBySearchRequest(SearchRequest searchRequest);
+    List<House> findAllBySearchRequest(@Param("searchRequest") SearchRequest searchRequest);
+
+    List<House> findALLByAppUser(AppUser appUser);
+
+    House findByAppUser(AppUser appUser);
 }

@@ -1,5 +1,6 @@
 package com.airbnb.clone.service;
 
+import com.airbnb.clone.controller.ReservationController;
 import com.airbnb.clone.dto.HouseRequest;
 import com.airbnb.clone.dto.HouseResponse;
 import com.airbnb.clone.dto.SearchRequest;
@@ -14,6 +15,7 @@ import org.springframework.stereotype.Service;
 
 import java.sql.Timestamp;
 import java.util.List;
+import java.util.Optional;
 import java.util.stream.Collectors;
 
 @Service
@@ -40,6 +42,9 @@ public class HouseService {
 
     @Autowired
     private HouseMapper houseMapper;
+
+    @Autowired
+    private ImageRepository imageRepository;
 
     public HouseResponse saveHouse(HouseRequest houseRequest){
         HouseCategory houseCategory =houseCategoryRepository.findByName(houseRequest.getHouseCategory())
@@ -77,10 +82,26 @@ public class HouseService {
     public List<HouseResponse> getAllHousesByUsername(String username){
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppUserNotFoundException(username));
-        return houseRepository.findAllByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
+        return houseRepository.findALLByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
+    }
+
+    public void deleteById(Long id){
+        Optional<House> house = houseRepository.findById(id);
+        if (house.isPresent()) {
+            List<Reservation> reservations = reservationRepository.findAllByHouse(house.get());
+            for (Reservation reservation : reservations) {
+                reservationRepository.deleteById(reservation.getId());
+            }
+            List<ImageModel> imageModels = imageRepository.findAllByHouse(house.get());
+            for (ImageModel imageModel : imageModels) {
+                imageRepository.deleteById(imageModel.getId());
+            }
+            houseRepository.deleteById(id);
+        }
     }
 
     public List<HouseResponse> getAllAvailableHouse(SearchRequest searchRequest) {
+        List<House> houseList = houseRepository.findAllBySearchRequest(searchRequest);
         List<House> houses = houseRepository
                 .findAllBySearchRequest(searchRequest)
                 .stream()
