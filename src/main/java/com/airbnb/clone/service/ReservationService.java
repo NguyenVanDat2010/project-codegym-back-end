@@ -14,6 +14,7 @@ import com.airbnb.clone.repository.IHouseRepository;
 import com.airbnb.clone.repository.IReservationRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -81,13 +82,14 @@ public class ReservationService {
     }
 
     /**Là khách hàng kiểm tra mình dang thuê những nhà nào*/
+    @Transactional(readOnly = true)
     public List<ReservationDto> getAllReservationsByUser(String username) {
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppUserNotFoundException(username.toString()));
         List<Reservation> reservations = reservationRepository.findAllByUser(user);
         return reservations.stream().map(reservationMapper::mapToDo).collect(toList());
     }
-
+    @Transactional(readOnly = true)
     /**Là chủ nhà, lấy ra những khách hàng đang thuê nhà của mình*/
     public List<ReservationDto> getAllReservationsByHouse(Long houseId) {
         House house = houseRepository.findById(houseId)
