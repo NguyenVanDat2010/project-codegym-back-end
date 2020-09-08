@@ -1,9 +1,10 @@
 package com.airbnb.clone.model;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import org.hibernate.annotations.UpdateTimestamp;
 
 import javax.persistence.*;
-import javax.validation.constraints.NotEmpty;
+import java.sql.Timestamp;
 
 @Entity
 @Table(name = "reservation")
@@ -11,12 +12,13 @@ public class Reservation {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    @Column(name = "start_date",nullable = false)
-    @NotEmpty(message = "Start date is required")
-    private String start_date;
-    @Column(name = "end_date",nullable = false)
-    @NotEmpty(message = "End date is required")
-    private String end_date;
+    @Column(name = "create_at")
+    @UpdateTimestamp
+    private Timestamp createdAt;
+    @Column(name = "start_date", nullable = false)
+    private Timestamp startDate;
+    @Column(name = "end_date", nullable = false)
+    private Timestamp endDate;
 
     //Xác định khách hàng thuê nhà
     @ManyToOne
@@ -31,6 +33,14 @@ public class Reservation {
     public Reservation() {
     }
 
+    public Timestamp getCreatedAt() {
+        return createdAt;
+    }
+
+    public void setCreatedAt(Timestamp createdAt) {
+        this.createdAt = createdAt;
+    }
+
     public Long getId() {
         return id;
     }
@@ -39,20 +49,20 @@ public class Reservation {
         this.id = id;
     }
 
-    public String getStart_date() {
-        return start_date;
+    public Timestamp getStartDate() {
+        return startDate;
     }
 
-    public void setStart_date(String start_date) {
-        this.start_date = start_date;
+    public void setStartDate(Timestamp startDate) {
+        this.startDate = startDate;
     }
 
-    public String getEnd_date() {
-        return end_date;
+    public Timestamp getEndDate() {
+        return endDate;
     }
 
-    public void setEnd_date(String end_date) {
-        this.end_date = end_date;
+    public void setEndDate(Timestamp endDate) {
+        this.endDate = endDate;
     }
 
     public AppUser getUser() {

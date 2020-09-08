@@ -13,7 +13,6 @@ public class House {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-
     @Column(nullable = false)
     @NotEmpty(message = "Name is required")
     private String name;
@@ -25,11 +24,16 @@ public class House {
 
     @Column(nullable = false)
     @NotEmpty(message = "Description is required")
+    @Lob
     private String description;
 
     @Column(nullable = false)
     @Min(1)
-    private int price;
+    private Integer price;
+
+    private Integer bathrooms = 0;
+
+    private Integer sleepingRooms = 0;
 
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
@@ -112,5 +116,21 @@ public class House {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(int bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
+    public int getSleepingRooms() {
+        return sleepingRooms;
+    }
+
+    public void setSleepingRooms(int sleepingRooms) {
+        this.sleepingRooms = sleepingRooms;
     }
 }

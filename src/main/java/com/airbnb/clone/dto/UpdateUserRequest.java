@@ -10,61 +10,49 @@ import javax.validation.constraints.Email;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
 
-public class RegisterRequest {
+public class UpdateUserRequest {
+    private Long id;
     @NotBlank(message = "First name is required")
     private String firstName;
     @NotBlank(message = "Last name is required")
     private String lastName;
-    @UniquePhoneNumber
+//    @UniquePhoneNumber
     private String phoneNumber;
-    @UniqueEmail
+//    @UniqueEmail
     @Email
     @Column(nullable = false, unique = true)
     @NotEmpty(message = "Email is required")
     private String email;
-    @UniqueUserName
+//    @UniqueUserName
     @NotBlank(message = "Username is required")
     @NotEmpty(message = "Username is required")
     @Column(nullable = false,unique = true)
     private String username;
-    @NotBlank(message = "Password is required")
-    @NotEmpty(message = "Password is required")
-    private String password;
+//    @NotBlank(message = "Password is required")
+//    @NotEmpty(message = "Password is required")
+//    private String password;
+    private String image;
 
-    public RegisterRequest() {
+    public UpdateUserRequest() {
     }
 
-    public RegisterRequest(String firstName, String lastName, String phoneNumber, String username, String email, String password) {
+    public UpdateUserRequest(Long id,String firstName, String lastName, String username, String email, String password, String phoneNumber, String image) {
+        this.id = id;
         this.firstName = firstName;
         this.lastName = lastName;
+        this.username = username;
+        this.email = email;
+//        this.password = password;
         this.phoneNumber = phoneNumber;
-        this.username = username;
-        this.email = email;
-        this.password = password;
+        this.image = image;
     }
 
-    public String getUsername() {
-        return username;
+    public Long getId() {
+        return id;
     }
 
-    public void setUsername(String username) {
-        this.username = username;
-    }
-
-    public String getEmail() {
-        return email;
-    }
-
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPassword() {
-        return password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
+    public void setId(Long id) {
+        this.id = id;
     }
 
     public String getFirstName() {
@@ -83,11 +71,43 @@ public class RegisterRequest {
         this.lastName = lastName;
     }
 
+    public String getUsername() {
+        return username;
+    }
+
+    public void setUsername(String username) {
+        this.username = username;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
+    public void setEmail(String email) {
+        this.email = email;
+    }
+
+//    public String getPassword() {
+//        return password;
+//    }
+//
+//    public void setPassword(String password) {
+//        this.password = password;
+//    }
+
     public String getPhoneNumber() {
         return phoneNumber;
     }
 
     public void setPhoneNumber(String phoneNumber) {
         this.phoneNumber = phoneNumber;
+    }
+
+    public String getImage() {
+        return image;
+    }
+
+    public void setImage(String image) {
+        this.image = image;
     }
 }

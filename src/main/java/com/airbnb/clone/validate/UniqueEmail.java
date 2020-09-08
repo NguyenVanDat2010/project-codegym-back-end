@@ -7,10 +7,9 @@ import java.lang.annotation.*;
 
 import static java.lang.annotation.RetentionPolicy.RUNTIME;
 
-@Documented
-@Target({ElementType.METHOD, ElementType.FIELD})
 @Constraint(validatedBy = UniqueEmailValidator.class)
-@Retention(RUNTIME)
+@Target({ElementType.FIELD, ElementType.METHOD})
+@Retention(RetentionPolicy.RUNTIME)
 public @interface UniqueEmail {
     String message() default "Email cannot be duplicated!";
     Class<?>[] groups() default {};

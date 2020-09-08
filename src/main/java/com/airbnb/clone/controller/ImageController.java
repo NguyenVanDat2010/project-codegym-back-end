@@ -1,5 +1,6 @@
 package com.airbnb.clone.controller;
 
+import com.airbnb.clone.dto.ImageDto;
 import com.airbnb.clone.dto.ResponseMessage;
 import com.airbnb.clone.model.ImageModel;
 import com.airbnb.clone.service.ImageService;
@@ -19,23 +20,13 @@ public class ImageController {
     private ImageService imageService;
 
     @PostMapping
-    public ResponseEntity<ResponseMessage> uploadFiles(
-            @RequestPart("file")MultipartFile file,
-            @RequestPart("houseId") String houseId) {
-        String message = "";
-        try {
-            imageService.saveImage(file,Long.parseLong(houseId));
-            message = "Upload the file successfully: " + file.getOriginalFilename();
-            return new ResponseEntity<>(new ResponseMessage(message),HttpStatus.OK);
-        } catch (IOException e) {
-            message = "Could not upload the file: " + file.getOriginalFilename();
-            return new ResponseEntity<>(new ResponseMessage(message),
-                    HttpStatus.EXPECTATION_FAILED);
-        }
+    public ResponseEntity<ResponseMessage> uploadImage(@RequestBody ImageDto imageDto) {
+        imageService.saveImage(imageDto);
+        return new ResponseEntity<>(HttpStatus.CREATED);
     }
 
     @GetMapping("/by-house/{houseId}")
-    public ResponseEntity<List<ImageModel>> getImage(@PathVariable("houseId") Long houseId) {
+    public ResponseEntity<List<ImageDto>> getImage(@PathVariable("houseId") Long houseId) {
         return new ResponseEntity<>(imageService.getAllImageByHouseId(houseId), HttpStatus.OK);
     }
 }

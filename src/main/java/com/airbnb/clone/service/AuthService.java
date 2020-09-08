@@ -1,9 +1,6 @@
 package com.airbnb.clone.service;
 
-import com.airbnb.clone.dto.AuthenticationResponse;
-import com.airbnb.clone.dto.LoginRequest;
-import com.airbnb.clone.dto.RefreshTokenRequest;
-import com.airbnb.clone.dto.RegisterRequest;
+import com.airbnb.clone.dto.*;
 import com.airbnb.clone.exception.AppException;
 import com.airbnb.clone.model.AppUser;
 import com.airbnb.clone.model.NotificationEmail;
@@ -11,8 +8,10 @@ import com.airbnb.clone.model.VerificationToken;
 import com.airbnb.clone.repository.AppUserRepository;
 import com.airbnb.clone.repository.VerificationRepository;
 import com.airbnb.clone.security.JwtProvider;
+import com.airbnb.clone.validate.UniqueEmail;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.core.env.Environment;
 import org.springframework.security.authentication.AnonymousAuthenticationToken;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
@@ -22,7 +21,6 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
 import java.time.Instant;
 import java.util.Optional;
 import java.util.UUID;
@@ -45,6 +43,8 @@ public class AuthService {
     private RefreshTokenService refreshTokenService;
     @Value("${backend.api}")
     private String BACKEND_API;
+    @Autowired
+    private Environment environment;
 
     @Transactional
     public void signup(RegisterRequest registerRequest) {
