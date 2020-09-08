@@ -101,7 +101,6 @@ public class HouseService {
     }
 
     public List<HouseResponse> getAllAvailableHouse(SearchRequest searchRequest) {
-        List<House> houseList = houseRepository.findAllBySearchRequest(searchRequest);
         List<House> houses = houseRepository
                 .findAllBySearchRequest(searchRequest)
                 .stream()
