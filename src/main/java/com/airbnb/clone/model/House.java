@@ -45,7 +45,7 @@ public class House {
     @JsonIgnore
     private HouseCategory houseCategory;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "city_id",nullable = false, referencedColumnName = "id")
     @JsonIgnore
     private City city;

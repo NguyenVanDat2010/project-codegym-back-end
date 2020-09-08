@@ -19,7 +19,7 @@ public class Comment {
 
     private Instant createdDate;
 
-    @ManyToOne(fetch = FetchType.LAZY)
+    @ManyToOne(fetch = FetchType.LAZY, cascade = {CascadeType.ALL})
     @JoinColumn(name = "user_id", referencedColumnName = "userId")
     private AppUser appUser;
 
