@@ -47,11 +47,12 @@ public class HouseService {
     private ImageRepository imageRepository;
 
     public HouseResponse saveHouse(HouseRequest houseRequest){
-        HouseCategory houseCategory =houseCategoryRepository.findByName(houseRequest.getHouseCategory())
-                .orElseThrow(() -> new HouseCategoryNotFoundException(houseRequest.getHouseCategory()));
+        HouseCategory houseCategory =
+                houseCategoryRepository.findById(houseRequest.getHouseCategory())
+                .orElseThrow(() -> new HouseCategoryNotFoundException(houseRequest.getHouseCategory().toString()));
         AppUser currentUser = authService.getCurrentUser();
-        City city = cityRepository.findByName(houseRequest.getCityName())
-                .orElseThrow(() -> new CityNotFoundException(houseRequest.getCityName()));
+        City city = cityRepository.findById(houseRequest.getCity())
+                .orElseThrow(() -> new CityNotFoundException(houseRequest.getCity().toString()));
         House house = houseRepository.save(houseMapper.map(houseRequest,city,
                 houseCategory,
                 currentUser));
