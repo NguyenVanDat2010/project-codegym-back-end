@@ -82,7 +82,7 @@ public class HouseService {
     public List<HouseResponse> getAllHousesByUsername(String username){
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppUserNotFoundException(username));
-        return houseRepository.findALLByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
+        return houseRepository.findAllByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
     }
 
     public void deleteById(Long id){

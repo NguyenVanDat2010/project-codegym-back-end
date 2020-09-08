@@ -42,7 +42,5 @@ public interface IHouseRepository extends JpaRepository<House, Long> {
     )
     List<House> findAllBySearchRequest(@Param("searchRequest") SearchRequest searchRequest);
 
-    List<House> findALLByAppUser(AppUser appUser);
-
     House findByAppUser(AppUser appUser);
 }
