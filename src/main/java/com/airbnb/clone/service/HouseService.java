@@ -47,6 +47,9 @@ public class HouseService {
     @Autowired
     private ImageRepository imageRepository;
 
+    @Autowired
+    private ICommentRepository commentRepository;
+
     public HouseResponse saveHouse(HouseRequest houseRequest){
         HouseCategory houseCategory =
                 houseCategoryRepository.findById(houseRequest.getHouseCategory())
@@ -101,6 +104,10 @@ public class HouseService {
             List<ImageModel> imageModels = imageRepository.findAllByHouse(house.get());
             for (ImageModel imageModel : imageModels) {
                 imageRepository.deleteById(imageModel.getId());
+            }
+            List<Comment> comments = commentRepository.findAllByHouse(house.get());
+            for (Comment comment : comments) {
+                commentRepository.deleteById(comment.getId());
             }
             houseRepository.deleteById(id);
         }
