@@ -112,7 +112,7 @@ public class HouseService {
             houseRepository.deleteById(id);
         }
     }
-
+    @Transactional(readOnly = true)
     public List<HouseResponse> getAllAvailableHouse(SearchRequest searchRequest) {
         List<House> houses = houseRepository
                 .findAllBySearchRequest(searchRequest)
