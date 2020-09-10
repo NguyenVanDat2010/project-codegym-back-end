@@ -38,9 +38,9 @@ public interface IHouseRepository extends JpaRepository<House, Long> {
             ":#{#searchRequest.sleepingRooms})" +
             "AND (:#{#searchRequest.price} IS NULL OR h.price <= :#{#searchRequest.price})" +
             "AND (:#{#searchRequest.name} IS NULL OR h.name " +
-            "LIKE %upper(:#{#searchRequest.name}) %)" +
+            "LIKE upper(concat('%', :#{#searchRequest.name}, '%')))" +
             "AND (:#{#searchRequest.address} IS NULL OR h.address " +
-            "LIKE %upper(:#{#searchRequest.address})%)"
+            "LIKE upper(concat('%', :#{#searchRequest.address}, '%')))"
     )
     List<House> findAllBySearchRequest(@Param("searchRequest") SearchRequest searchRequest);
 
