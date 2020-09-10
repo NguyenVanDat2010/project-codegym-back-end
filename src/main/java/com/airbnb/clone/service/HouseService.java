@@ -113,7 +113,6 @@ public class HouseService {
         }
     }
 
-    @Transactional(readOnly = true)
     public List<HouseResponse> getAllAvailableHouse(SearchRequest searchRequest) {
         List<House> houses = houseRepository
                 .findAllBySearchRequest(searchRequest)
