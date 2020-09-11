@@ -69,4 +69,18 @@ public class CommentService {
                 .map(commentMapper::mapToDto)
                 .collect(Collectors.toList());
     }
+
+    public float getRatingForHouse(House house) {
+        List<Comment> commentList = commentRepository.findAllByHouse(house);
+        float sum = 0;
+        if (commentList.size() == 0){
+            return 0;
+        }
+        else {
+            for (int i = 0; i < commentList.size(); i++) {
+                sum += commentList.get(i).getVotes();
+            }
+            return sum / commentList.size();
+        }
+    }
 }

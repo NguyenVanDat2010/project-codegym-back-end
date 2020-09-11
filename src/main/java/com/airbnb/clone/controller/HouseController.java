@@ -2,6 +2,8 @@ package com.airbnb.clone.controller;
 
 import com.airbnb.clone.dto.HouseRequest;
 import com.airbnb.clone.dto.HouseResponse;
+import com.airbnb.clone.dto.SearchRequest;
+import com.airbnb.clone.dto.MessageResponse;
 import com.airbnb.clone.model.City;
 import com.airbnb.clone.model.HouseCategory;
 import com.airbnb.clone.service.CityService;
@@ -37,10 +39,13 @@ public class HouseController {
         return new ResponseEntity<>(houseService.getHouse(id), HttpStatus.OK);
     }
 
+    @PostMapping("/search")
+    public ResponseEntity<List<HouseResponse>> findHouse(@RequestBody SearchRequest searchRequest) {
+        return new ResponseEntity<>(houseService.getAllAvailableHouse(searchRequest), HttpStatus.OK);
+    }
     @GetMapping
     public ResponseEntity<List<HouseResponse>> getAllHouses(){
         return new ResponseEntity<>(houseService.getAllHouses(),HttpStatus.OK);
-
     }
 
     @GetMapping("/by-house-category/{id}")
@@ -60,5 +65,11 @@ public class HouseController {
     @GetMapping("/show-all-house-category")
     public ResponseEntity<List<HouseCategory>> getAllHousesCategory(){
         return new ResponseEntity<>(houseCategoryService.showAllHouseCategories(),HttpStatus.OK);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<MessageResponse> deleteHouseById(@PathVariable Long id){
+        houseService.deleteById(id);
+        return new ResponseEntity<>(new MessageResponse("Delete succeed!"),HttpStatus.OK);
     }
 }

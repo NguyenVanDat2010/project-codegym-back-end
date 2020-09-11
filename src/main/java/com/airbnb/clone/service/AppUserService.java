@@ -1,5 +1,9 @@
 package com.airbnb.clone.service;
 
+import com.airbnb.clone.dto.RequestPasswordUser;
+import com.airbnb.clone.dto.UpdateUserRequest;
+import com.airbnb.clone.exception.AppUserNotFoundException;
+import com.airbnb.clone.mapper.UpdateUserMapper;
 import com.airbnb.clone.model.AppUser;
 import com.airbnb.clone.repository.AppUserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -9,8 +13,11 @@ import org.springframework.security.core.userdetails.User;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
+
 import java.util.Collection;
+import java.util.List;
 import java.util.Optional;
 
 import static java.util.Collections.singletonList;
@@ -18,6 +25,14 @@ import static java.util.Collections.singletonList;
 public class AppUserService implements UserDetailsService {
     @Autowired
     private AppUserRepository appUserRepository;
+
+    @Autowired
+    private UpdateUserMapper updateUserMapper;
+
+//    @Autowired
+//    private PasswordEncoder passwordEncoder;
+
+//    private PasswordUserMapper passwordUserMapper;
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
@@ -50,11 +65,45 @@ public class AppUserService implements UserDetailsService {
         return appUserRepository.findAll();
     }
 
+    public UpdateUserRequest getUserById(Long id){
+        AppUser user =  appUserRepository.findById(id).orElseThrow(() -> new AppUserNotFoundException(id.toString()));
+        return updateUserMapper.mapToDo(user);
+    }
+
     public AppUser save(AppUser user){
         return appUserRepository.save(user);
     }
 
-    public Optional<AppUser> getUserByUsername(String username){
-        return appUserRepository.findByUsername(username);
+    public UpdateUserRequest getUserByUsername(String username){
+        AppUser user =  appUserRepository.findByUsername(username).orElseThrow(() -> new AppUserNotFoundException(username.toString()));
+        return updateUserMapper.mapToDo(user);
+    }
+
+    public Boolean updateUser(UpdateUserRequest updateUserRequest){
+        List<AppUser> users = appUserRepository.getAllByUsernameAndEmailAndPhoneNumber(updateUserRequest.getId(), updateUserRequest.getUsername(),updateUserRequest.getEmail(),updateUserRequest.getPhoneNumber());
+        if (users.size() == 0){
+            AppUser oldUser = appUserRepository.findById(updateUserRequest.getId()).get();
+            AppUser user = updateUserMapper.map(updateUserRequest);
+            if (!oldUser.getEmail().equals(user.getEmail()) || !oldUser.getUsername().equals(user.getUsername())){
+                return false;
+            }
+            user.setCreated(oldUser.getCreated());
+            user.setEnabled(oldUser.isEnabled());
+            user.setPassword(oldUser.getPassword());
+            appUserRepository.save(user);
+            return true;
+        }
+        return false;
+    }
+
+    public Boolean changePassword(RequestPasswordUser requestPasswordUser){
+        BCryptPasswordEncoder passwordEncoder = new BCryptPasswordEncoder();
+        AppUser user = appUserRepository.findByUsername(requestPasswordUser.getUsername()).get();
+        if (passwordEncoder.matches(requestPasswordUser.getOldPassword(),user.getPassword())){
+            user.setPassword(passwordEncoder.encode(requestPasswordUser.getNewPassword()));
+            appUserRepository.save(user);
+            return true;
+        }
+        return false;
     }
 }

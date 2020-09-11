@@ -28,28 +28,29 @@ public class AuthController {
 
    @Validated
    @PostMapping("/signup")
-    public ResponseEntity<String> signup(@Valid @RequestBody RegisterRequest registerRequest, BindingResult result) {
+    public ResponseEntity<?> signup(@Valid @RequestBody RegisterRequest registerRequest, BindingResult result) {
       if (registerRequest == null || result.hasErrors()){
-         System.out.println("Can sign up user");
-         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+         return ResponseEntity.badRequest().body(new MessageResponse("Sign up failed!"));
       }
        authService.signup(registerRequest);
-       return new ResponseEntity<>( HttpStatus.OK);
+       return new ResponseEntity<>(new MessageResponse("Sign up successfully!"), HttpStatus.OK);
    }
 
-   @GetMapping("/users")
-   public ResponseEntity<Iterable<AppUser>> getAllUsers(){
-      return new ResponseEntity<>(userService.getAllUsers(),HttpStatus.OK);
+   @GetMapping("/users/{username}")
+   public ResponseEntity<UpdateUserRequest> getAllUsers(@PathVariable String username){
+      return new ResponseEntity<>(userService.getUserByUsername(username),HttpStatus.OK);
    }
 
-   @PutMapping("/updateUser/{id}")
-   public ResponseEntity<AppUser> updateUser(@Valid @RequestBody UpdateUserRequest updateUserRequest, BindingResult result){
+   @PutMapping("/users")
+   public ResponseEntity<?> updateUser(@Valid @RequestBody UpdateUserRequest updateUserRequest, BindingResult result){
       if (updateUserRequest == null || result.hasErrors()){
-         System.out.println("Can update user");
-         return new ResponseEntity<>(HttpStatus.NO_CONTENT);
+         return ResponseEntity.badRequest().body(new MessageResponse("Update failed!"));
       }
-      authService.updateUser(updateUserRequest);
-      return new ResponseEntity<>(HttpStatus.OK);
+      Boolean isUpdated = userService.updateUser(updateUserRequest);
+      if (isUpdated){
+         return new ResponseEntity<>(HttpStatus.OK);
+      }
+      return ResponseEntity.badRequest().body(new MessageResponse("Update failed!"));
    }
 
    @GetMapping("accountVerification/{token}")
@@ -73,5 +74,15 @@ public class AuthController {
       return ResponseEntity.status(HttpStatus.OK).body("Refresh token delete successfully");
    }
 
-
+   @PutMapping("/users/change-pass")
+   public ResponseEntity<?> changePass(@Valid @RequestBody RequestPasswordUser requestPasswordUser, BindingResult result){
+      if (requestPasswordUser == null || result.hasErrors()){
+         return ResponseEntity.badRequest().body(new MessageResponse("Change password failed!"));
+      }
+      Boolean isChangedPassword = userService.changePassword(requestPasswordUser);
+      if (isChangedPassword){
+         return new ResponseEntity<>(new MessageResponse("Change password successfully"),HttpStatus.OK);
+      }
+      return ResponseEntity.badRequest().body(new MessageResponse("Change password failed!"));
+   }
 }

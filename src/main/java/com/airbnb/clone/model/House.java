@@ -29,7 +29,11 @@ public class House {
 
     @Column(nullable = false)
     @Min(1)
-    private int price;
+    private Integer price;
+
+    private Integer bathrooms = 0;
+
+    private Integer sleepingRooms = 0;
 
     @ManyToOne
     @JoinColumn(name = "user_id",nullable = false)
@@ -112,5 +116,21 @@ public class House {
 
     public void setPrice(int price) {
         this.price = price;
+    }
+
+    public int getBathrooms() {
+        return bathrooms;
+    }
+
+    public void setBathrooms(int bathrooms) {
+        this.bathrooms = bathrooms;
+    }
+
+    public int getSleepingRooms() {
+        return sleepingRooms;
+    }
+
+    public void setSleepingRooms(int sleepingRooms) {
+        this.sleepingRooms = sleepingRooms;
     }
 }
