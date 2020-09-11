@@ -1,6 +1,7 @@
 package com.airbnb.clone.service;
 
 import com.airbnb.clone.controller.ReservationController;
+import com.airbnb.clone.dto.CommentDto;
 import com.airbnb.clone.dto.HouseRequest;
 import com.airbnb.clone.dto.HouseResponse;
 import com.airbnb.clone.dto.SearchRequest;
@@ -46,6 +47,9 @@ public class HouseService {
     @Autowired
     private ImageRepository imageRepository;
 
+    @Autowired
+    private ICommentRepository commentRepository;
+
     public HouseResponse saveHouse(HouseRequest houseRequest){
         HouseCategory houseCategory =
                 houseCategoryRepository.findById(houseRequest.getHouseCategory())
@@ -89,6 +93,8 @@ public class HouseService {
     public void deleteById(Long id){
         Optional<House> house = houseRepository.findById(id);
         if (house.isPresent()) {
+            house.get().setCity(null);
+            house.get().setHouseCategory(null);
             List<Reservation> reservations = reservationRepository.findAllByHouse(house.get());
             for (Reservation reservation : reservations) {
                 reservationRepository.deleteById(reservation.getId());
@@ -96,6 +102,10 @@ public class HouseService {
             List<ImageModel> imageModels = imageRepository.findAllByHouse(house.get());
             for (ImageModel imageModel : imageModels) {
                 imageRepository.deleteById(imageModel.getId());
+            }
+            List<Comment> comments = commentRepository.findAllByHouse(house.get());
+            for (Comment comment: comments){
+                cityRepository.deleteById(comment.getId());
             }
             houseRepository.deleteById(id);
         }
