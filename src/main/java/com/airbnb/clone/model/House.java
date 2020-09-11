@@ -13,6 +13,7 @@ public class House {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+
     @Column(nullable = false)
     @NotEmpty(message = "Name is required")
     private String name;
@@ -45,7 +46,7 @@ public class House {
     @JsonIgnore
     private HouseCategory houseCategory;
 
-    @ManyToOne
+    @ManyToOne(cascade = {CascadeType.ALL})
     @JoinColumn(name = "city_id",nullable = false, referencedColumnName = "id")
     @JsonIgnore
     private City city;

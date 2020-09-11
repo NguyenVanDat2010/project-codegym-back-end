@@ -13,6 +13,7 @@ import com.airbnb.clone.repository.IHouseRepository;
 import com.airbnb.clone.repository.IReservationRepository;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.stream.Collectors;
@@ -59,6 +60,7 @@ public class CommentService {
 //        commentRepository.save(comment);
     }
 
+    @Transactional(readOnly = true)
     public List<CommentDto> getAllCommentsForUser(String userName){
         AppUser appUser =
                 appUserRepository.findByUsername(userName)
@@ -70,6 +72,7 @@ public class CommentService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<CommentDto> getAllCommentsForHouse(Long houseId){
         House house =
                 houseRepository.findById(houseId)

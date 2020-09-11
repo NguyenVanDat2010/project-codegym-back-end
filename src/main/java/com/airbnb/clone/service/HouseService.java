@@ -13,6 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.hibernate.mapping.Collection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.sql.Timestamp;
 import java.util.List;
@@ -63,6 +64,7 @@ public class HouseService {
         return houseMapper.mapToDto(house);
     }
 
+    @Transactional(readOnly = true)
     public HouseResponse getHouse(Long id){
         House house =houseRepository.findById(id)
                 .orElseThrow(() -> new HouseNotFoundException(id.toString()));
@@ -77,6 +79,7 @@ public class HouseService {
                 .collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<HouseResponse> getAllHousesByHouseCategory(Long houseCategoryId ){
         HouseCategory houseCategory = houseCategoryRepository.findById(houseCategoryId)
                 .orElseThrow(() -> new HouseCategoryNotFoundException(houseCategoryId.toString()));
@@ -84,17 +87,17 @@ public class HouseService {
         return houses.stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
     }
 
+    @Transactional(readOnly = true)
     public List<HouseResponse> getAllHousesByUsername(String username){
         AppUser user = userRepository.findByUsername(username)
                 .orElseThrow(() -> new AppUserNotFoundException(username));
-        return houseRepository.findALLByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
+
+        return houseRepository.findAllByAppUser(user).stream().map(houseMapper :: mapToDto).collect(Collectors.toList());
     }
 
     public void deleteById(Long id){
         Optional<House> house = houseRepository.findById(id);
         if (house.isPresent()) {
-            house.get().setCity(null);
-            house.get().setHouseCategory(null);
             List<Reservation> reservations = reservationRepository.findAllByHouse(house.get());
             for (Reservation reservation : reservations) {
                 reservationRepository.deleteById(reservation.getId());
@@ -104,15 +107,14 @@ public class HouseService {
                 imageRepository.deleteById(imageModel.getId());
             }
             List<Comment> comments = commentRepository.findAllByHouse(house.get());
-            for (Comment comment: comments){
-                cityRepository.deleteById(comment.getId());
+            for (Comment comment : comments) {
+                commentRepository.deleteById(comment.getId());
             }
             houseRepository.deleteById(id);
         }
     }
-
+    @Transactional(readOnly = true)
     public List<HouseResponse> getAllAvailableHouse(SearchRequest searchRequest) {
-        List<House> houseList = houseRepository.findAllBySearchRequest(searchRequest);
         List<House> houses = houseRepository
                 .findAllBySearchRequest(searchRequest)
                 .stream()
