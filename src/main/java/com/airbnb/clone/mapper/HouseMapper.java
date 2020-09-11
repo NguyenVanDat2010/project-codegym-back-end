@@ -8,12 +8,16 @@ import com.airbnb.clone.model.City;
 import com.airbnb.clone.model.House;
 import com.airbnb.clone.model.HouseCategory;
 import com.airbnb.clone.service.AuthService;
+import com.airbnb.clone.service.CommentService;
 import org.mapstruct.Mapper;
 import org.mapstruct.Mapping;
 import org.springframework.beans.factory.annotation.Autowired;
 
 @Mapper(componentModel = "spring")
 public abstract class HouseMapper {
+    @Autowired
+    private CommentService commentService;
+
     @Mapping(target = "id", source = "houseRequest.id")
     @Mapping(target = "name", source = "houseRequest.name")
     @Mapping(target = "address", source = "houseRequest.address")
@@ -28,7 +32,11 @@ public abstract class HouseMapper {
 
     @Mapping(target = "username", source = "appUser.username")
     @Mapping(target = "houseCategory", source = "houseCategory.name")
+    @Mapping(target = "rating", expression = "java(ratingCount(house))")
     @Mapping(target = "city", source = "city.name")
     public abstract HouseResponse mapToDto(House house);
 
+    float ratingCount(House house){
+        return commentService.getRatingForHouse(house);
+    }
 }

@@ -11,11 +11,14 @@ public class HouseResponse {
     private Integer bathrooms;
     private Integer sleepingRooms;
     private Integer price;
+    private float rating;
 
     public HouseResponse() {
     }
 
-    public HouseResponse(Long id, String name, String username, String address, String houseCategory, String city, String description, Integer bathrooms, Integer sleepingRooms, Integer price) {
+    public HouseResponse(Long id, String name, String username, String address,
+                         String houseCategory, String city, String description, Integer bathrooms
+            , Integer sleepingRooms, Integer price, float rating) {
         this.id = id;
         this.name = name;
         this.username = username;
@@ -26,6 +29,15 @@ public class HouseResponse {
         this.bathrooms = bathrooms;
         this.sleepingRooms = sleepingRooms;
         this.price = price;
+        this.rating = rating;
+    }
+
+    public float getRating() {
+        return rating;
+    }
+
+    public void setRating(float rating) {
+        this.rating = rating;
     }
 
     public Long getId() {
