@@ -3,6 +3,7 @@ package com.airbnb.clone.controller;
 import com.airbnb.clone.dto.MessageResponse;
 import com.airbnb.clone.dto.ReservationDto;
 import com.airbnb.clone.dto.ResponseMessage;
+import com.airbnb.clone.exception.AppException;
 import com.airbnb.clone.service.AppUserService;
 import com.airbnb.clone.service.ReservationService;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -40,9 +41,6 @@ public class ReservationController {
             return new ResponseEntity<>(HttpStatus.NO_CONTENT);
         }
         ReservationDto reservationDto1 = reservationService.saveReservation(reservationDto);
-        if (reservationDto1 == null){
-            return ResponseEntity.badRequest().body(new ResponseMessage("Reservation failed!"));
-        }
         return new ResponseEntity<>(new ResponseMessage("Reservation successed!"),HttpStatus.CREATED);
     }
 
@@ -75,5 +73,10 @@ public class ReservationController {
             return ResponseEntity.badRequest().body(new MessageResponse("Delete error for this reservation!"));
         }
         return new ResponseEntity<>(new MessageResponse("Delete reservation succeed!"), HttpStatus.OK);
+    }
+    @ExceptionHandler(AppException.class)
+    public ResponseEntity<String> handleBookingException(AppException e) {
+        return new ResponseEntity<>(e.getMessage(),
+                HttpStatus.BAD_REQUEST);
     }
 }
