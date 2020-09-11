@@ -74,9 +74,5 @@ public class ReservationController {
         }
         return new ResponseEntity<>(new MessageResponse("Delete reservation succeed!"), HttpStatus.OK);
     }
-    @ExceptionHandler(AppException.class)
-    public ResponseEntity<String> handleBookingException(AppException e) {
-        return new ResponseEntity<>(e.getMessage(),
-                HttpStatus.BAD_REQUEST);
-    }
+
 }

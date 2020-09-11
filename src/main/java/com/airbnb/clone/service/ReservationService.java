@@ -108,12 +108,14 @@ public class ReservationService {
                     .orElseThrow(() -> new HouseNotFoundException(reservationDto.getId().toString()));
             AppUser currentUser = authService.getCurrentUser();
             if (house.getAppUser().getUserId().equals(currentUser.getUserId())){
+                //throw app exception (may change to another type of exception)
                throw new AppException("You cannot book your house");
             }
                 reservationRepository.save(reservationMapper.map(reservationDto, house, currentUser));
             return reservationDto;
         }
-        throw new AppException("Your time block for this house is booked");
+        //throw app exception (may change to another type of exception and catch at controller)
+        throw new AppException("This house is not available at this booking time");
     }
 
     /**Update nhà đã đặt*/
