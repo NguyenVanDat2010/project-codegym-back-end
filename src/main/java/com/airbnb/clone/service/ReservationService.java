@@ -2,6 +2,7 @@ package com.airbnb.clone.service;
 
 import com.airbnb.clone.dto.MessageResponse;
 import com.airbnb.clone.dto.ReservationDto;
+import com.airbnb.clone.exception.AppException;
 import com.airbnb.clone.exception.AppUserNotFoundException;
 import com.airbnb.clone.exception.HouseNotFoundException;
 import com.airbnb.clone.exception.ReservationNotFoundException;
@@ -107,12 +108,12 @@ public class ReservationService {
                     .orElseThrow(() -> new HouseNotFoundException(reservationDto.getId().toString()));
             AppUser currentUser = authService.getCurrentUser();
             if (house.getAppUser().getUserId().equals(currentUser.getUserId())){
-                return null;
+               throw new AppException("You cannot book your house");
             }
                 reservationRepository.save(reservationMapper.map(reservationDto, house, currentUser));
             return reservationDto;
         }
-        return null;
+        throw new AppException("Your time block for this house is booked");
     }
 
     /**Update nhà đã đặt*/
